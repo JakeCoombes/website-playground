@@ -1,19 +1,12 @@
 import '@fortawesome/fontawesome-free/css/all.css';
 import karenRoyImage from './assets/karen-roy.jpg';
 import React, { useState } from 'react';
-import { gapi } from "gapi-script";
 import emailjs from 'emailjs-com';
-import { useEffect } from "react";
+
+
 
 const KarenBikeFittingServices = () => {
 
-  document.title = "Advantage Bike Fitting";
-
-  const CLIENT_ID = "330469452702-blia5upapsmg10dtfrsqiajs3jg892bu.apps.googleusercontent.com";
-  const API_KEY = "AIzaSyBIA552UkWxLjoTEXYaAkzHZ6pIm1d3Mbk";
-  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
-
-  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -24,58 +17,14 @@ const KarenBikeFittingServices = () => {
     time: "",
   });
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-
-    if (name === "date") {
-      const selectedDate = new Date(value);
-      const day = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-      // Fetch available times based on the selected day
-      let availableTimes: string[] = [];
-      if (day === 1 || day === 3) {
-        // Monday or Wednesday: 4 PM - 7 PM
-        availableTimes = ["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
-      } else if (day === 6) {
-        // Saturday: 10 AM - 4 PM
-        availableTimes = [
-          "10:00 AM",
-          "11:00 AM",
-          "12:00 PM",
-          "1:00 PM",
-          "2:00 PM",
-          "3:00 PM",
-          "4:00 PM",
-        ];
-      } else {
-        alert("Please select a Monday, Wednesday, or Saturday.");
-        setAvailableTimes([]); // Clear available times if the date is invalid
-        return;
-      }
-
-      setAvailableTimes(availableTimes); // Update the available times state
-    }
-
-    setFormData((prevState) => ({
+    setFormData((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
   };
-  
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
-        scope: SCOPES,
-      });
-    };
-    gapi.load("client:auth2", initClient);
-  }, []);
-
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,35 +41,6 @@ const KarenBikeFittingServices = () => {
       date: formatDate(formData.date),
       time: formData.time,
       message: formData.message,
-    };
-
-    const addEventToGoogleCalendar = () => {
-      const event = {
-        summary: "Bike Fitting Appointment",
-        location: "3 Taylor St, Littleton, MA 01460",
-        description: formData.message || "Bike fitting session with Karen Roy.",
-        start: {
-          dateTime: new Date(formData.date + "T" + formData.time).toISOString(),
-          timeZone: "America/New_York",
-        },
-        end: {
-          dateTime: new Date(new Date(formData.date + "T" + formData.time).getTime() + 60 * 60 * 1000).toISOString(),
-          timeZone: "America/New_York",
-        },
-      };
-
-      gapi.auth2.getAuthInstance().signIn().then(() => {
-        gapi.client.calendar.events.insert({
-          calendarId: "8486f46d09efcda6acab1f44abeef5bbe10cc1c01eb967b4e8d9b5efd1934a30@group.calendar.google.com",
-          resource: event,
-        }).then((response: any) => {
-          console.log("Event created: ", response);
-          alert("Event added to your Google Calendar!");
-        }).catch((error: any) => {
-          console.error("Error creating event: ", error);
-          alert("Failed to add event to Google Calendar.");
-        });
-      });
     };
 
     emailjs
@@ -188,14 +108,14 @@ const KarenBikeFittingServices = () => {
     },
     {
       quote:
-        "Great experience with Karen!  Top Notch!",
+      "Great experience with Karen!  Top Notch!",
       name: "K. Bodyk",
       discipline: "Road Cycling",
       rating: 4,
     },
     {
       quote:
-        "If you're in need of a bike fitting, see Karen!  I used to experience back pain when riding my bike, but after she made a few adjustments to my seat and handlebars, it made a world of difference.  She also recommended some exercises to help strengthen my back.  As an avid biker herself, she really knows her stuff.  Thanks Karen - I'll definitely be back again.",
+      "If you're in need of a bike fitting, see Karen!  I used to experience back pain when riding my bike, but after she made a few adjustments to my seat and handlebars, it made a world of difference.  She also recommended some exercises to help strengthen my back.  As an avid biker herself, she really knows her stuff.  Thanks Karen - I'll definitely be back again.",
       name: "R. Peffenbach",
       discipline: "Road Cycling",
       rating: 5,
@@ -254,14 +174,14 @@ const KarenBikeFittingServices = () => {
             </a>
           </nav>
           {/* Small screens */}
-          <button className="md:hidden bg-pink-600 text-white px-3 py-2 rounded-lg shadow-md hover:bg-pink-700 transition duration-300 !rounded-button whitespace-nowrap cursor-pointer">
-            <a href="#booking">Book a Fitting</a>
-          </button>
+  <button className="md:hidden bg-pink-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-pink-700 transition duration-300 !rounded-button whitespace-nowrap cursor-pointer">
+    <a href="#booking">Book a Fitting</a>
+  </button>
 
-          {/* Medium and larger screens */}
-          <button className="hidden md:inline-block bg-pink-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-pink-700 transition duration-300 !rounded-button whitespace-nowrap cursor-pointer">
-            <a href="#contact">Book a Fitting</a>
-          </button>
+  {/* Medium and larger screens */}
+  <button className="hidden md:inline-block bg-pink-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-pink-700 transition duration-300 !rounded-button whitespace-nowrap cursor-pointer">
+    <a href="#contact">Book a Fitting</a>
+  </button>
         </div>
       </header>
 
@@ -727,11 +647,33 @@ const KarenBikeFittingServices = () => {
                         <option value="" disabled>
                           Select a time
                         </option>
-                        {availableTimes.map((time, index) => (
-                          <option key={index} value={time}>
-                            {time}
-                          </option>
-                        ))}
+                        {(() => {
+                          const selectedDate = new Date(formData.date);
+                          const day = selectedDate.getDay();
+                          let availableTimes: string[] = [];
+
+                          if (day === 0 || day === 2) {
+                            // Monday or Wednesday: 4pm - 7pm
+                            availableTimes = ["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
+                          } else if (day === 5) {
+                            // Saturday: 10am - 4pm
+                            availableTimes = [
+                              "10:00 AM",
+                              "11:00 AM",
+                              "12:00 PM",
+                              "1:00 PM",
+                              "2:00 PM",
+                              "3:00 PM",
+                              "4:00 PM",
+                            ];
+                          }
+
+                          return availableTimes.map((time, index) => (
+                            <option key={index} value={time}>
+                              {time}
+                            </option>
+                          ));
+                        })()}
                       </select>
                     </div>
                   </div>
