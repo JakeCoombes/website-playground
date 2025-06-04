@@ -661,7 +661,7 @@ const KarenBikeFittingServices = () => {
 
                             if (day === 0 || day === 2) {
                               // Monday or Wednesday: 4pm - 7pm
-                              availableTimes = ["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
+                              availableTimes = ["4:00 PM", "5:00 PM", "6:00 PM"];
                             } else if (day === 5) {
                               // Saturday: 10am - 4pm
                               availableTimes = [
@@ -671,7 +671,6 @@ const KarenBikeFittingServices = () => {
                                 "1:00 PM",
                                 "2:00 PM",
                                 "3:00 PM",
-                                "4:00 PM",
                               ];
                             }
 
