@@ -242,11 +242,11 @@ const KarenBikeFittingServices = () => {
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
                 Our Services
               </h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+              <p className="text-gray-600 max-w-2xl mx-auto">
                 We offer comprehensive bike fitting services tailored to your
                 unique needs, whether you're a competitive racer or weekend
                 warrior. Each session typically lasts <span className="text-pink-600 font-semibold">1 to 2 hours</span>. We do not sell bikes or perform initial bike sizing—our focus is purely on professional fittings.
-                </p>
+              </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {services.map((service, index) => (
@@ -270,7 +270,37 @@ const KarenBikeFittingServices = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-8 flex justify-center">
+            {/* Pricing & Visuals Row */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 my-8">
+              {/* Left: Ideal Angles Image */}
+              <div className="flex-1 flex justify-center">
+                <img
+                  src={idealAngles}
+                  alt="Ideal Bike Fitting Angles"
+                  //className="rounded-lg shadow-md max-w-full h-auto"
+                  style={{ maxHeight: 350, width: "100%", objectFit: "contain" }}
+                />
+              </div>
+              {/* Right: YouTube Video */}
+                <div className="flex-1 flex justify-center">
+                <div
+                  className="rounded-lg shadow-md w-full flex items-center justify-center"
+                >
+                  <iframe
+                  width="100%"
+                  height="450"
+                  src="https://www.youtube.com/embed/NMapNqggCJk?modestbranding=1&rel=0&showinfo=0&controls=1"
+                  title="Bike Fitting Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="rounded-lg w-full h-full"
+                  style={{ minHeight: 350, maxHeight: 450, border: 0 }}
+                  ></iframe>
+                </div>
+                </div>
+            </div>
+            {/* Center: Pricing */}
+            <div className="flex-1 flex justify-center">
               <div className="bg-white rounded-lg shadow px-8 py-4 text-center">
                 <span className="text-2xl font-bold text-pink-600">$200</span>
                 <span className="block text-gray-700 mt-2 text-lg">
@@ -350,13 +380,13 @@ const KarenBikeFittingServices = () => {
                   About Advantage Bike Fitting
                 </h2>
                 <p className="text-gray-600 mb-6">
-                  Our studio has grown to become the premier destination for cyclists 
-                  seeking to optimize their performance and comfort through professional 
-                  bike fitting services. We specialize in fitting mountain, road, and 
-                  Peloton bikes, tailoring each session to the specific demands of the 
-                  rider and their equipment. All fittings are conducted through our 
+                  Our studio has grown to become the premier destination for cyclists
+                  seeking to optimize their performance and comfort through professional
+                  bike fitting services. We specialize in fitting mountain, road, and
+                  Peloton bikes, tailoring each session to the specific demands of the
+                  rider and their equipment. All fittings are conducted through our
                   partnership with <a href="https://ckbikes.com/" target="_blank" rel="noopener noreferrer" className="text-pink-600 underline hover:text-pink-800">CK Bikes</a> {" "}
-                  at their Littleton, MA location, providing a professional environment 
+                  at their Littleton, MA location, providing a professional environment
                   and trusted cycling support.
                 </p>
                 <p className="text-gray-600 mb-6">
@@ -494,15 +524,15 @@ const KarenBikeFittingServices = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800 mb-1">
-                      Location
+                        Location
                       </h3>
                       <a
-                      href="https://www.google.com/maps/search/?api=1&query=3+Taylor+St,+Littleton,+MA+01460"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-pink-600 underline transition-colors"
+                        href="https://www.google.com/maps/search/?api=1&query=3+Taylor+St,+Littleton,+MA+01460"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-pink-600 underline transition-colors"
                       >
-                      3 Taylor St, Littleton, MA 01460
+                        3 Taylor St, Littleton, MA 01460
                       </a>
                     </div>
                   </div>
