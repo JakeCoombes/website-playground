@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-free/css/all.css';
 import karenRoyImage from './assets/karen-roy.jpg';
+import idealAngles from './assets/ideal-angles.jpg';
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 
@@ -147,7 +148,10 @@ const KarenBikeFittingServices = () => {
           <div className="container mx-auto px-4 py-3 flex justify-between items-center">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-purple-700">
-                Advantage Bike Fitting by Karen Roy
+                Advantage Bike Fitting{" "}
+                <span className="text-base font-bold text-purple-700 align-middle">
+                  by Karen Roy
+                </span>
               </h1>
             </div>
             <nav className="hidden md:flex space-x-8">
@@ -232,17 +236,17 @@ const KarenBikeFittingServices = () => {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="py-20 bg-gray-50">
+        <section id="services" className="pt-20 pb-10 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
                 Our Services
               </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
+                <p className="text-gray-600 max-w-2xl mx-auto">
                 We offer comprehensive bike fitting services tailored to your
                 unique needs, whether you're a competitive racer or weekend
-                warrior.
-              </p>
+                warrior. Each session typically lasts <span className="text-pink-600 font-semibold">1 to 2 hours</span>. We do not sell bikes or perform initial bike sizing—our focus is purely on professional fittings.
+                </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {services.map((service, index) => (
@@ -265,6 +269,17 @@ const KarenBikeFittingServices = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-8 flex justify-center">
+              <div className="bg-white rounded-lg shadow px-8 py-4 text-center">
+                <span className="text-2xl font-bold text-pink-600">$200</span>
+                <span className="block text-gray-700 mt-2 text-lg">
+                  per bike fitting session
+                </span>
+                <span className="block text-gray-500 text-sm mt-1 italic">
+                  Experience a professional fitting for a single, all-inclusive price.
+                </span>
+              </div>
             </div>
           </div>
         </section>
@@ -335,7 +350,14 @@ const KarenBikeFittingServices = () => {
                   About Advantage Bike Fitting
                 </h2>
                 <p className="text-gray-600 mb-6">
-                  Our studio has grown to become the premier destination for cyclists seeking to optimize their performance and comfort through professional bike fitting services. We specialize in fitting mountain, road, and Peloton bikes, tailoring each session to the specific demands of the rider and their equipment.
+                  Our studio has grown to become the premier destination for cyclists 
+                  seeking to optimize their performance and comfort through professional 
+                  bike fitting services. We specialize in fitting mountain, road, and 
+                  Peloton bikes, tailoring each session to the specific demands of the 
+                  rider and their equipment. All fittings are conducted through our 
+                  partnership with <a href="https://ckbikes.com/" target="_blank" rel="noopener noreferrer" className="text-pink-600 underline hover:text-pink-800">CK Bikes</a> {" "}
+                  at their Littleton, MA location, providing a professional environment 
+                  and trusted cycling support.
                 </p>
                 <p className="text-gray-600 mb-6">
                   With 32 years as an ACE Certified Personal Trainer and 17 years
@@ -472,11 +494,16 @@ const KarenBikeFittingServices = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800 mb-1">
-                        Location
+                      Location
                       </h3>
-                      <p className="text-gray-600">
-                        3 Taylor St, Littleton, MA 01460
-                      </p>
+                      <a
+                      href="https://www.google.com/maps/search/?api=1&query=3+Taylor+St,+Littleton,+MA+01460"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-pink-600 underline transition-colors"
+                      >
+                      3 Taylor St, Littleton, MA 01460
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start">
