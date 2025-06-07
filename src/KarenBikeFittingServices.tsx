@@ -46,24 +46,37 @@ const KarenBikeFittingServices = () => {
 
     emailjs
       .send(
-        'service_ap6agtl', // Replace with your EmailJS Service ID
-        'template_79nly6s', // Replace with your EmailJS Template ID
+        'service_ap6agtl', 
+        'template_79nly6s', 
         templateParams,
-        'tx9yWdkEuZiAz_ah6' // Replace with your EmailJS Public Key
+        'tx9yWdkEuZiAz_ah6'
       )
       .then(
         (response) => {
           console.log('Email sent successfully:', response.status, response.text);
-          alert('Your request has been submitted successfully!');
-          // Reset form
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            date: '',
-            time: '',
-            message: '',
-          });
+          // Send second email (confirmation)
+          emailjs.send(
+            'service_ap6agtl',
+            'template_vl1hyws',
+            templateParams,
+            'tx9yWdkEuZiAz_ah6'
+          ).then(
+            () => {
+              alert('Your request has been submitted successfully!');
+              setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                date: '',
+                time: '',
+                message: '',
+              });
+            },
+            (error) => {
+              console.error('Failed to send confirmation email:', error);
+              alert('Your request was received, but confirmation email failed.');
+            }
+          );
         },
         (error) => {
           console.error('Failed to send email:', error);
@@ -277,27 +290,27 @@ const KarenBikeFittingServices = () => {
                 <img
                   src={idealAngles}
                   alt="Ideal Bike Fitting Angles"
-                  //className="rounded-lg shadow-md max-w-full h-auto"
                   style={{ maxHeight: 350, width: "100%", objectFit: "contain" }}
                 />
               </div>
+
               {/* Right: YouTube Video */}
-                <div className="flex-1 flex justify-center">
+              <div className="flex-1 flex justify-center">
                 <div
                   className="rounded-lg shadow-md w-full flex items-center justify-center"
                 >
                   <iframe
-                  width="100%"
-                  height="450"
-                  src="https://www.youtube.com/embed/NMapNqggCJk?modestbranding=1&rel=0&showinfo=0&controls=1"
-                  title="Bike Fitting Video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="rounded-lg w-full h-full"
-                  style={{ minHeight: 350, maxHeight: 450, border: 0 }}
+                    width="100%"
+                    height="450"
+                    src="https://www.youtube.com/embed/NMapNqggCJk?modestbranding=1&rel=0&showinfo=0&controls=1"
+                    title="Bike Fitting Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="rounded-lg w-full h-full"
+                    style={{ minHeight: 350, maxHeight: 450, border: 0 }}
                   ></iframe>
                 </div>
-                </div>
+              </div>
             </div>
             {/* Center: Pricing */}
             <div className="flex-1 flex justify-center">
@@ -542,7 +555,12 @@ const KarenBikeFittingServices = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800 mb-1">Phone</h3>
-                      <p className="text-gray-600">(508) 783-4491</p>
+                      <a
+                        href="tel:5087834491"
+                        className="text-gray-600 hover:text-pink-600 underline transition-colors"
+                      >
+                        (508) 783-4491
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -551,7 +569,12 @@ const KarenBikeFittingServices = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
-                      <p className="text-gray-600">kpkgkroy@gmail.com</p>
+                      <a
+                        href="mailto:kpkgkroy@gmail.com"
+                        className="text-gray-600 hover:text-pink-600 underline transition-colors"
+                      >
+                        kpkgkroy@gmail.com
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -678,14 +701,18 @@ const KarenBikeFittingServices = () => {
                           onChange={handleInputChange}
                           className="w-full px-2 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
                           required
-                          onKeyDown={(e) => e.preventDefault()} // Prevent manual typing
+                          onKeyDown={(e) => e.preventDefault()} 
                           onInput={(e) => {
                             const input = e.target as HTMLInputElement;
                             const selectedDate = new Date(input.value);
                             const day = selectedDate.getDay();
                             console.log(day);
-                            if (![0, 2, 5].includes(day)) {
-                              input.value = ""; // Clear invalid date
+                            if (selectedDate < new Date(new Date().toDateString())) {
+                              input.value = "";
+                              alert("Please select a future date.");
+                            }
+                             else if (![0, 2, 5].includes(day)) {
+                              input.value = "";
                               alert("Please select a Monday, Wednesday, or Saturday.");
                             }
                           }}
@@ -717,10 +744,10 @@ const KarenBikeFittingServices = () => {
                             let availableTimes: string[] = [];
 
                             if (day === 0 || day === 2) {
-                              // Monday or Wednesday: 4pm - 7pm
+                              // Monday or Wednesday: 4pm - 6pm
                               availableTimes = ["4:00 PM", "5:00 PM", "6:00 PM"];
                             } else if (day === 5) {
-                              // Saturday: 10am - 4pm
+                              // Saturday: 10am - 3pm
                               availableTimes = [
                                 "10:00 AM",
                                 "11:00 AM",
