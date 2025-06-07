@@ -46,8 +46,8 @@ const KarenBikeFittingServices = () => {
 
     emailjs
       .send(
-        'service_ap6agtl', 
-        'template_79nly6s', 
+        'service_ap6agtl',
+        'template_79nly6s',
         templateParams,
         'tx9yWdkEuZiAz_ah6'
       )
@@ -701,17 +701,16 @@ const KarenBikeFittingServices = () => {
                           onChange={handleInputChange}
                           className="w-full px-2 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
                           required
-                          onKeyDown={(e) => e.preventDefault()} 
+                          onKeyDown={(e) => e.preventDefault()}
                           onInput={(e) => {
                             const input = e.target as HTMLInputElement;
+                            if (!input.value) return; // <-- Only validate if a date is picked
                             const selectedDate = new Date(input.value);
                             const day = selectedDate.getDay();
-                            console.log(day);
                             if (selectedDate < new Date(new Date().toDateString())) {
                               input.value = "";
                               alert("Please select a future date.");
-                            }
-                             else if (![0, 2, 5].includes(day)) {
+                            } else if (![0, 2, 5].includes(day)) {
                               input.value = "";
                               alert("Please select a Monday, Wednesday, or Saturday.");
                             }
