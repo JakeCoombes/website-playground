@@ -314,7 +314,8 @@ const KarenBikeFittingServices = () => {
             </div>
             {/* Center: Pricing */}
             <div className="flex-1 flex justify-center">
-              <div className="bg-white rounded-lg shadow px-8 py-4 text-center">
+              <div className="grow bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 px-8 py-4 text-center"
+                style={{ minWidth: 220 }}>
                 <span className="text-2xl font-bold text-pink-600">$200</span>
                 <span className="block text-gray-700 mt-2 text-lg">
                   per bike fitting session
@@ -701,16 +702,14 @@ const KarenBikeFittingServices = () => {
                           onChange={handleInputChange}
                           className="w-full px-2 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
                           required
+                          min={new Date().toISOString().split("T")[0]}
                           onKeyDown={(e) => e.preventDefault()}
                           onInput={(e) => {
                             const input = e.target as HTMLInputElement;
                             if (!input.value) return; // <-- Only validate if a date is picked
                             const selectedDate = new Date(input.value);
                             const day = selectedDate.getDay();
-                            if (selectedDate < new Date(new Date().toDateString())) {
-                              input.value = "";
-                              alert("Please select a future date.");
-                            } else if (![0, 2, 5].includes(day)) {
+                            if (![0, 2, 5].includes(day)) {
                               input.value = "";
                               alert("Please select a Monday, Wednesday, or Saturday.");
                             }
