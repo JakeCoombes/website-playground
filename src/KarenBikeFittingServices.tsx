@@ -160,9 +160,9 @@ const KarenBikeFittingServices = () => {
         <header className="bg-white shadow-sm fixed w-full z-50">
           <div className="container mx-auto px-4 py-3 flex justify-between items-center">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-purple-700">
+              <h1 className="text-lg sm:text-2xl font-bold text-purple-700 leading-tight">
                 Advantage Bike Fitting{" "}
-                <span className="text-base font-bold text-purple-700 align-middle">
+                <span className="block sm:inline text-xs sm:text-base font-semibold">
                   by Karen Roy
                 </span>
               </h1>
@@ -398,10 +398,7 @@ const KarenBikeFittingServices = () => {
                   seeking to optimize their performance and comfort through professional
                   bike fitting services. We specialize in fitting mountain, road, and
                   Peloton bikes, tailoring each session to the specific demands of the
-                  rider and their equipment. All fittings are conducted through our
-                  partnership with <a href="https://ckbikes.com/" target="_blank" rel="noopener noreferrer" className="text-pink-600 underline hover:text-pink-800">CK Bikes</a> {" "}
-                  at their Littleton, MA location, providing a professional environment
-                  and trusted cycling support.
+                  rider and their equipment. 
                 </p>
                 <p className="text-gray-600 mb-6">
                   With 32 years as an ACE Certified Personal Trainer and 17 years
@@ -532,7 +529,7 @@ const KarenBikeFittingServices = () => {
                   about our services.
                 </p>
                 <div className="space-y-6 mb-8">
-                  <div className="flex items-start">
+                  <div className="flex items-start hidden">                                                         {/* Hidden since we don't have a physical location */}
                     <div className="bg-pink-100 rounded-full p-3 mr-4">
                       <i className="fas fa-map-marker-alt text-pink-600"></i>
                     </div>
