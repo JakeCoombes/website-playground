@@ -1,6 +1,6 @@
 import '@fortawesome/fontawesome-free/css/all.css';
-import karenRoyImage from './assets/karen-roy.jpg';
-import idealAngles from './assets/ideal-angles.jpg';
+import karenRoyImage from '../assets/karen-roy.jpg';
+import idealAngles from '../assets/ideal-angles.jpg';
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 
@@ -156,7 +156,7 @@ const KarenBikeFittingServices = () => {
         }
         `}
       </style>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black text-white">
         <header className="bg-white shadow-sm fixed w-full z-50">
           <div className="container mx-auto px-4 py-3 flex justify-between items-center">
             <div className="flex items-center">
