@@ -17,7 +17,13 @@ function App() {
           : "min-h-screen overflow-x-hidden bg-black text-white"
       }
     >
-      <nav className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 border-b border-slate-800 bg-black text-white">
+      <nav
+        className={
+          page === "lily"
+            ? "hidden items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white md:flex"
+            : "flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white"
+        }
+      >
         <button onClick={() => setPage("home")} className="text-xl font-bold">
           Jake Builds
         </button>
