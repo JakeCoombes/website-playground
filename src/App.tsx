@@ -13,16 +13,16 @@ function App() {
     <div
       className={
         page === "lily"
-          ? "min-h-screen"
-          : "min-h-screen bg-black text-white"
+          ? "min-h-screen overflow-x-hidden"
+          : "min-h-screen overflow-x-hidden bg-black text-white"
       }
     >
-      <nav className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-black text-white">
+      <nav className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 border-b border-slate-800 bg-black text-white">
         <button onClick={() => setPage("home")} className="text-xl font-bold">
           Jake Builds
         </button>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button
             onClick={() => setPage("karen")}
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"

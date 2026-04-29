@@ -12,6 +12,8 @@ html,
 body,
 #root {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -22,4 +24,3 @@ body {
 #contact textarea::placeholder {
   color: rgba(255, 255, 255, 0.95);
 }
-

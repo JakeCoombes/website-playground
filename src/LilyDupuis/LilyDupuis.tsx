@@ -176,7 +176,7 @@ export default function LilyDupuis() {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen overflow-x-hidden"
       style={{
         backgroundColor: cream,
         color: ink,
@@ -196,7 +196,7 @@ export default function LilyDupuis() {
           isFrench ? "Switch language to English" : "Passer la langue en francais"
         }
       >
-        {isFrench ? "Francais" : "English"}
+        {isFrench ? "English" : "Francais"}
       </button>
 
       {/* ACCUEIL / PREMIER ECRAN */}
@@ -373,7 +373,7 @@ export default function LilyDupuis() {
         <div className="absolute inset-0 bg-black/20" />
 
         <div
-          className="relative z-10 w-full max-w-7xl px-12 md:px-20 py-14 text-center shadow-xl m-28"
+          className="relative z-10 w-full max-w-7xl px-6 py-14 text-center shadow-xl sm:px-12 md:m-28 md:px-20"
           style={{ backgroundColor: cream, color: ink }}
         >
           <h2 className="text-3xl md:text-4xl">
@@ -461,7 +461,7 @@ export default function LilyDupuis() {
         <div className="absolute inset-0 bg-black/20" />
 
         <div
-          className="relative z-10 w-full max-w-7xl px-12 md:px-20 py-14 text-center shadow-xl m-28"
+          className="relative z-10 w-full max-w-7xl px-6 py-14 text-center shadow-xl sm:px-12 md:m-28 md:px-20"
           style={{ backgroundColor: cream, color: ink }}
         >
           <p className="mb-5 text-xs uppercase tracking-[0.25em] text-black/45">
@@ -526,7 +526,7 @@ export default function LilyDupuis() {
 
       {/* FAQ */}
       <section id="faq" className="px-6 py-24">
-        <div className="mx-auto grid max-w-8xl grid-cols-3 items-center gap-16">
+        <div className="mx-auto grid max-w-8xl grid-cols-1 items-center gap-10 lg:grid-cols-3 lg:gap-16">
           {/* IMAGE DE GAUCHE */}
           <img
             src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=80"
