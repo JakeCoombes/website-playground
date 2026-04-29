@@ -1,0 +1,19 @@
+{
+  "name": "Website Playground",
+  "short_name": "Playground",
+  "description": "A playground for polished website concepts and local business demos.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F3EEE6",
+  "theme_color": "#2F2D28",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/robot.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
