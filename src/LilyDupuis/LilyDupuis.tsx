@@ -329,7 +329,7 @@ export default function LilyDupuis() {
       </section>
 
       {/* HORIZONTAL IMAGE STRIP MOBILE*/}
-      <section id="gallery" className="block md:hidden">
+      <section id="gallery" className="block md:hidden pb-20">
         <div
           ref={carouselRef}
           className="flex gap-3 overflow-x-auto px-3 scroll-smooth"
@@ -343,8 +343,8 @@ export default function LilyDupuis() {
               key={image}
               className="h-[420px] md:h-[520px]"
               style={{
-                flex: "0 0 calc((100% - 60px) / 3)",
-                minWidth: "calc((100% - 60px) / 3)",
+                flex: "0 0 calc((100% - 20px) / 3)",
+                minWidth: "calc((100% - 20px) / 3)",
               }}
             >
               <img
