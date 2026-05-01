@@ -158,21 +158,21 @@ export default function LilyDupuis() {
   }, []);
 
   useEffect(() => {
-  const carousel = carouselRef.current;
-  if (!carousel) return;
+    const carousel = carouselRef.current;
+    if (!carousel) return;
 
-  const interval = setInterval(() => {
-    const halfwayPoint = carousel.scrollWidth / 2;
+    const interval = setInterval(() => {
+      const halfwayPoint = carousel.scrollWidth / 2;
 
-    if (carousel.scrollLeft >= halfwayPoint) {
-      carousel.scrollLeft = 0;
-    } else {
-      carousel.scrollBy({ left: 400, behavior: "smooth" });
-    }
-  }, 2000);
+      if (carousel.scrollLeft >= halfwayPoint) {
+        carousel.scrollLeft = 0;
+      } else {
+        carousel.scrollBy({ left: 400, behavior: "smooth" });
+      }
+    }, 2000);
 
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div
@@ -193,16 +193,18 @@ export default function LilyDupuis() {
           color: cream,
         }}
         aria-label={
-          isFrench ? "Switch language to English" : "Passer la langue en francais"
+          isFrench
+            ? "Switch language to English"
+            : "Passer la langue en francais"
         }
       >
         {isFrench ? "English" : "Francais"}
       </button>
 
-      {/* ACCUEIL / PREMIER ECRAN */}
+      {/* HOME / FIRST SCREEN */}
       <section
         id="home"
-        className="relative h-[92svh] min-h-[560px] w-full overflow-hidden bg-center bg-cover md:h-screen md:bg-fixed"
+        className="relative h-screen min-h-[560px] w-full overflow-hidden bg-center bg-cover md:bg-fixed"
         style={{
           backgroundImage:
             "url('https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=2000&q=80')",
@@ -225,7 +227,9 @@ export default function LilyDupuis() {
               href="#home"
               className="text-center md:absolute md:left-1/2 md:top-5 md:-translate-x-1/2"
             >
-              <p className="text-base leading-none tracking-[0.18em] md:text-lg">LE CLOS</p>
+              <p className="text-base leading-none tracking-[0.18em] md:text-lg">
+                LE CLOS
+              </p>
               <p className="text-base leading-none tracking-[0.18em] md:text-lg">
                 MARIE-LOUISE
               </p>
@@ -249,7 +253,7 @@ export default function LilyDupuis() {
                 : "A refined estate for intimate gatherings, events and creative moments"}
             </h1>
 
-            <p className="mx-auto mt-12 max-w-xs text-xs leading-6 text-white/90 md:mt-44 md:max-w-xl">
+            <p className="mx-auto mt-12 max-w-xs text-xs leading-6 text-white md:mt-44 md:max-w-xl">
               {isFrench
                 ? "Le Clos Marie-Louise ouvre ses portes aux moments qui comptent : se reunir, creer, recevoir et celebrer."
                 : "Le Clos Marie-Louise opens its doors for moments that matter: gathering, creating, hosting, and celebrating."}
@@ -258,7 +262,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* CONFIANCE / IDEAL POUR */}
+      {/* TRUST / IDEAL FOR */}
       <section className="border-b border-black/20 px-6 py-8 md:py-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <p className="text-center text-sm md:text-left">
@@ -274,7 +278,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* CITATION */}
+      {/* QUOTE */}
       <section id="about" className="px-6 py-16 text-center md:py-24">
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto mb-7 flex h-20 w-20 items-center justify-center border border-black/20 text-3xl md:h-28 md:w-28 md:text-4xl">
@@ -291,8 +295,8 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* BANDE D'IMAGES HORIZONTALE */}
-      <section id="gallery" className="pb-14 md:pb-20">
+      {/* HORIZONTAL IMAGE STRIP DESKTOP*/}
+      <section id="gallery" className="hidden md:block pb-20">
         <div
           ref={carouselRef}
           className="flex gap-3 overflow-x-auto px-3 scroll-smooth"
@@ -304,7 +308,11 @@ export default function LilyDupuis() {
           {[...imageStrip, ...imageStrip].map((image, index) => (
             <div
               key={image}
-              className="h-64 min-w-[clamp(170px,68vw,260px)] flex-[0_0_clamp(170px,68vw,260px)] md:h-[520px] md:min-w-[calc((100%-60px)/6)] md:flex-[0_0_calc((100%-60px)/6)]"
+              className="h-[420px] md:h-[520px]"
+              style={{
+                flex: "0 0 calc((100% - 60px) / 6)",
+                minWidth: "calc((100% - 60px) / 6)",
+              }}
             >
               <img
                 src={image}
@@ -320,7 +328,40 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* ORGANISER UN EVENEMENT */}
+      {/* HORIZONTAL IMAGE STRIP MOBILE*/}
+      <section id="gallery" className="block md:hidden">
+        <div
+          ref={carouselRef}
+          className="flex gap-3 overflow-x-auto px-3 scroll-smooth"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          {[...imageStrip, ...imageStrip].map((image, index) => (
+            <div
+              key={image}
+              className="h-[420px] md:h-[520px]"
+              style={{
+                flex: "0 0 calc((100% - 60px) / 3)",
+                minWidth: "calc((100% - 60px) / 3)",
+              }}
+            >
+              <img
+                src={image}
+                alt={
+                  isFrench
+                    ? `Interieur du Clos Marie-Louise ${index + 1}`
+                    : `Le Clos Marie-Louise interior ${index + 1}`
+                }
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ORGANIZE AN EVENT */}
       <section id="events" className="px-6 pb-16 text-center md:pb-24">
         <div className="mx-auto max-w-4xl">
           <p className="mb-5 text-xs uppercase tracking-[0.25em] text-black/45">
@@ -341,7 +382,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* TYPES D'EVENEMENTS */}
+      {/* EVENT TYPES */}
       <section className="px-6 pb-16 md:pb-28">
         <div className="mx-auto grid max-w-10xl gap-8 md:grid-cols-3">
           {eventTypes.map((item) => (
@@ -360,7 +401,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* BANDE D'APPEL A L'ACTION PARALLAX */}
+      {/* PARALLAX CALL TO ACTION STRIP */}
       <section
         className="relative flex min-h-[420px] items-center justify-center bg-center bg-cover px-4 py-14 md:h-[500px] md:bg-fixed md:px-6 md:py-0"
         style={{
@@ -396,7 +437,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* DETAILS DU DOMAINE */}
+      {/* ESTATE DETAILS */}
       <section className="px-6 py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-2 md:items-center">
           <div>
@@ -448,7 +489,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* BANDE D'APPEL A L'ACTION PARALLAX 2 */}
+      {/* SECOND PARALLAX CALL TO ACTION STRIP */}
       <section
         className="relative flex min-h-[440px] items-center justify-center bg-center bg-cover px-4 py-14 md:h-[500px] md:bg-fixed md:px-6 md:py-0"
         style={{
@@ -501,8 +542,11 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* NOTE DE LILY */}
-      <section className="px-6 py-16 md:py-24" style={{ backgroundColor: "#E8E0D4" }}>
+      {/* NOTE FROM LILY */}
+      <section
+        className="px-6 py-16 md:py-24"
+        style={{ backgroundColor: "#E8E0D4" }}
+      >
         <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[0.8fr_1.2fr] md:items-center">
           <div>
             <p className="mb-4 text-xs uppercase tracking-[0.25em] text-black/45">
@@ -525,14 +569,14 @@ export default function LilyDupuis() {
       {/* FAQ */}
       <section id="faq" className="px-6 py-16 md:py-24">
         <div className="mx-auto grid max-w-8xl grid-cols-1 items-center gap-10 lg:grid-cols-3 lg:gap-16">
-          {/* IMAGE DE GAUCHE */}
+          {/* LEFT IMAGE */}
           <img
             src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=80"
             alt={isFrench ? "Detail de cuisine" : "Kitchen detail"}
             className="h-72 w-full object-cover lg:h-[520px] lg:pb-20"
           />
 
-          {/* TEXTE CENTRAL */}
+          {/* CENTER TEXT */}
           <div>
             <h2 className="mb-8 text-center text-2xl leading-tight md:mb-12 md:text-4xl">
               {isFrench ? "Questions frequentes" : "Frequently Asked Questions"}
@@ -549,7 +593,7 @@ export default function LilyDupuis() {
                     <span>{item.q}</span>
                   </button>
 
-                  {/* REPONSE */}
+                  {/* ANSWER */}
                   {openFaq === index && (
                     <p className="pb-5  pl-6 pr-6 text-sm text-black/60">
                       {item.a}
@@ -560,7 +604,7 @@ export default function LilyDupuis() {
             </div>
           </div>
 
-          {/* IMAGE DE DROITE */}
+          {/* RIGHT IMAGE */}
           <img
             src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"
             alt={isFrench ? "Salon de jardin" : "Garden lounge"}
@@ -627,7 +671,7 @@ export default function LilyDupuis() {
         </div>
       </section>
 
-      {/* PIED DE PAGE */}
+      {/* FOOTER */}
       <footer className="border-t border-black/10 px-6 py-10 pb-24 md:pb-10">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
