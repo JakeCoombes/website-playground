@@ -1,28 +1,284 @@
-export default function Curate() {
-  const services = [
-    { name: "Signature Cut", price: "$45" },
-    { name: "Skin Fade", price: "$50" },
-    { name: "Beard Trim", price: "$25" },
-    { name: "Hot Towel Shave", price: "$40" },
-  ];
+import { FormEvent, useEffect, useMemo, useState } from "react";
 
-  const barbers = [
-    {
-      name: "Brady Adams",
-      role: "Founder / Master Barber",
-      specialty: "Clean fades, textured cuts, modern classics",
-    },
-    {
-      name: "Marcus Lee",
-      role: "Senior Barber",
-      specialty: "Beards, lineups, sharp traditional cuts",
-    },
-    {
-      name: "Theo Grant",
-      role: "Stylist",
-      specialty: "Longer styles, scissor cuts, natural flow",
-    },
-  ];
+type Service = {
+  name: string;
+  price: number;
+  duration: number;
+};
+
+type Booking = {
+  id: number;
+  name: string;
+  contact: string;
+  barber: string;
+  services: string[];
+  date: string;
+  time: string;
+  duration: number;
+};
+
+const services: Service[] = [
+  { name: "Signature Cut", price: 45, duration: 60 },
+  { name: "Skin Fade", price: 50, duration: 60 },
+  { name: "Beard Trim", price: 25, duration: 30 },
+  { name: "Hot Towel Shave", price: 40, duration: 45 },
+];
+
+const barbers = [
+  {
+    name: "Brady Adams",
+    role: "Founder / Master Barber",
+    specialty: "Clean fades, textured cuts, modern classics",
+  },
+  {
+    name: "Marcus Lee",
+    role: "Senior Barber",
+    specialty: "Beards, lineups, sharp traditional cuts",
+  },
+  {
+    name: "Theo Grant",
+    role: "Stylist",
+    specialty: "Longer styles, scissor cuts, natural flow",
+  },
+];
+
+const seededBookings: Booking[] = [
+  {
+    id: 1,
+    name: "Daniel R.",
+    contact: "daniel@example.com",
+    barber: "Brady Adams",
+    services: ["Signature Cut"],
+    date: "2026-06-08",
+    time: "10:00",
+    duration: 45,
+  },
+  {
+    id: 2,
+    name: "Maya C.",
+    contact: "maya@example.com",
+    barber: "Marcus Lee",
+    services: ["Skin Fade", "Beard Trim"],
+    date: "2026-06-08",
+    time: "13:30",
+    duration: 85,
+  },
+];
+
+const storageKey = "curate-bookings";
+
+function getTodayDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function timeToMinutes(time: string) {
+  const [hours, minutes] = time.split(":").map(Number);
+
+  return hours * 60 + minutes;
+}
+
+function minutesToTime(totalMinutes: number) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
+
+function formatTime(time: string) {
+  return new Date(`2026-01-01T${time}:00`).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+function timesOverlap(
+  startA: number,
+  durationA: number,
+  startB: number,
+  durationB: number
+) {
+  return startA < startB + durationB && startA + durationA > startB;
+}
+
+export default function Curate() {
+  const [bookings, setBookings] = useState<Booking[]>(seededBookings);
+  const [bookingForm, setBookingForm] = useState({
+    name: "",
+    contact: "",
+    barber: "",
+    serviceSelections: [""],
+    date: "",
+    time: "",
+  });
+  const [bookingMessage, setBookingMessage] = useState("");
+  const [openServicePicker, setOpenServicePicker] = useState<number | null>(
+    null
+  );
+
+  useEffect(() => {
+    const storedBookings = window.localStorage.getItem(storageKey);
+
+    if (storedBookings) {
+      setBookings([...seededBookings, ...JSON.parse(storedBookings)]);
+    }
+  }, []);
+
+  const selectedServices = useMemo(
+    () =>
+      bookingForm.serviceSelections
+        .map((serviceName) =>
+          services.find((service) => service.name === serviceName)
+        )
+        .filter((service): service is Service => Boolean(service)),
+    [bookingForm.serviceSelections]
+  );
+
+  const totalDuration = selectedServices.reduce(
+    (total, service) => total + service.duration,
+    0
+  );
+
+  const totalPrice = selectedServices.reduce(
+    (total, service) => total + service.price,
+    0
+  );
+
+  const availableTimes = useMemo(() => {
+    if (!bookingForm.date || !bookingForm.barber || !totalDuration) {
+      return [];
+    }
+
+    const dayStart = 9 * 60;
+    const dayEnd = 19 * 60;
+    const slotStep = 30;
+    const sameDayBookings = bookings.filter(
+      (booking) =>
+        booking.date === bookingForm.date &&
+        booking.barber === bookingForm.barber
+    );
+    const slots: string[] = [];
+
+    for (
+      let slotStart = dayStart;
+      slotStart + totalDuration <= dayEnd;
+      slotStart += slotStep
+    ) {
+      const hasConflict = sameDayBookings.some((booking) =>
+        timesOverlap(
+          slotStart,
+          totalDuration,
+          timeToMinutes(booking.time),
+          booking.duration
+        )
+      );
+
+      if (!hasConflict) {
+        slots.push(minutesToTime(slotStart));
+      }
+    }
+
+    return slots;
+  }, [bookingForm.barber, bookingForm.date, bookings, totalDuration]);
+
+  const updateServiceSelection = (index: number, serviceName: string) => {
+    if (
+      serviceName &&
+      bookingForm.serviceSelections.some(
+        (selectedServiceName, selectedIndex) =>
+          selectedIndex !== index && selectedServiceName === serviceName
+      )
+    ) {
+      setBookingMessage("That service is already selected.");
+      setOpenServicePicker(null);
+      return;
+    }
+
+    setBookingForm((currentForm) => {
+      const nextSelections = [...currentForm.serviceSelections];
+      nextSelections[index] = serviceName;
+
+      return {
+        ...currentForm,
+        serviceSelections: nextSelections,
+        time: "",
+      };
+    });
+    setOpenServicePicker(null);
+    setBookingMessage("");
+  };
+
+  const addServiceSelection = () => {
+    setBookingForm((currentForm) => ({
+      ...currentForm,
+      serviceSelections: [...currentForm.serviceSelections, ""],
+      time: "",
+    }));
+  };
+
+  const removeServiceSelection = (index: number) => {
+    setBookingForm((currentForm) => ({
+      ...currentForm,
+      serviceSelections: currentForm.serviceSelections.filter(
+        (_, serviceIndex) => serviceIndex !== index
+      ),
+      time: "",
+    }));
+  };
+
+  const handleBookingSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (
+      !bookingForm.name ||
+      !bookingForm.contact ||
+      !bookingForm.barber ||
+      !bookingForm.date ||
+      !bookingForm.time ||
+      selectedServices.length === 0
+    ) {
+      setBookingMessage("Please complete every booking detail.");
+      return;
+    }
+
+    if (new Set(bookingForm.serviceSelections.filter(Boolean)).size !== selectedServices.length) {
+      setBookingMessage("Remove duplicate services before booking.");
+      return;
+    }
+
+    if (!availableTimes.includes(bookingForm.time)) {
+      setBookingMessage("That time is no longer available. Choose another slot.");
+      return;
+    }
+
+    const nextBooking: Booking = {
+      id: Date.now(),
+      name: bookingForm.name,
+      contact: bookingForm.contact,
+      barber: bookingForm.barber,
+      services: selectedServices.map((service) => service.name),
+      date: bookingForm.date,
+      time: bookingForm.time,
+      duration: totalDuration,
+    };
+    const storedBookings = JSON.parse(
+      window.localStorage.getItem(storageKey) || "[]"
+    ) as Booking[];
+    const nextStoredBookings = [...storedBookings, nextBooking];
+
+    window.localStorage.setItem(storageKey, JSON.stringify(nextStoredBookings));
+    setBookings([...seededBookings, ...nextStoredBookings]);
+    setBookingForm({
+      name: "",
+      contact: "",
+      barber: "",
+      serviceSelections: [""],
+      date: "",
+      time: "",
+    });
+    setBookingMessage(
+      `Booked for ${formatTime(nextBooking.time)} on ${nextBooking.date}.`
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] text-white">
@@ -142,7 +398,7 @@ export default function Curate() {
                   {service.name}
                 </p>
                 <p className="text-xl text-white/60 transition group-hover:text-black">
-                  {service.price}
+                  ${service.price}
                 </p>
               </div>
             ))}
@@ -186,38 +442,198 @@ export default function Curate() {
             </p>
           </div>
 
-          <div className="border border-black/20 p-6 shadow-2xl">
+          <form
+            onSubmit={handleBookingSubmit}
+            className="border border-black/20 p-6 shadow-2xl"
+          >
             <div className="grid gap-4">
               <input
                 placeholder="Name"
+                value={bookingForm.name}
+                onChange={(event) =>
+                  setBookingForm((currentForm) => ({
+                    ...currentForm,
+                    name: event.target.value,
+                  }))
+                }
                 className="border border-black/20 px-4 py-4 outline-none"
               />
               <input
                 placeholder="Phone / Email"
+                value={bookingForm.contact}
+                onChange={(event) =>
+                  setBookingForm((currentForm) => ({
+                    ...currentForm,
+                    contact: event.target.value,
+                  }))
+                }
                 className="border border-black/20 px-4 py-4 outline-none"
               />
-              <select className="border border-black/20 px-4 py-4 outline-none">
-                <option>Select Service</option>
-                <option>Signature Cut</option>
-                <option>Skin Fade</option>
-                <option>Beard Trim</option>
-                <option>Hot Towel Shave</option>
-              </select>
-              <select className="border border-black/20 px-4 py-4 outline-none">
+
+              <div className="grid gap-3">
+                {bookingForm.serviceSelections.map((serviceName, index) => (
+                  <div
+                    key={`service-${index}`}
+                    className="grid gap-2 sm:grid-cols-[1fr_auto]"
+                  >
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenServicePicker((currentOpenPicker) =>
+                            currentOpenPicker === index ? null : index
+                          )
+                        }
+                        className="flex w-full items-center justify-between gap-4 border border-black/20 bg-white px-4 py-4 text-left outline-none"
+                      >
+                        <span className={serviceName ? "text-black" : "text-black/50"}>
+                          {serviceName || "Select Service"}
+                        </span>
+                        <span className="flex items-center gap-5">
+                          <span className="text-sm font-bold text-black/50">
+                        {serviceName
+                          ? `$${services.find((service) => service.name === serviceName)?.price}`
+                          : ""}
+                          </span>
+                          <span className="text-black/40">v</span>
+                        </span>
+                      </button>
+
+                      {openServicePicker === index && (
+                        <div className="absolute left-0 right-0 top-full z-30 border border-t-0 border-black/20 bg-white shadow-xl">
+                          {services
+                            .filter(
+                              (service) =>
+                                service.name === serviceName ||
+                                !bookingForm.serviceSelections.includes(
+                                  service.name
+                                )
+                            )
+                            .map((service) => (
+                              <button
+                                key={service.name}
+                                type="button"
+                                onClick={() =>
+                                  updateServiceSelection(index, service.name)
+                                }
+                                className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left hover:bg-black hover:text-white"
+                              >
+                                <span>{service.name}</span>
+                                <span className="font-bold">
+                                  ${service.price}
+                                </span>
+                              </button>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {bookingForm.serviceSelections.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeServiceSelection(index)}
+                        className="border border-black/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-black/60 hover:bg-black hover:text-white"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                ))}
+
+                {selectedServices.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={addServiceSelection}
+                    className="w-fit border border-black px-5 py-3 text-xs font-bold uppercase tracking-[0.16em] hover:bg-black hover:text-white"
+                  >
+                    Add Another Service
+                  </button>
+                )}
+              </div>
+
+              <select
+                value={bookingForm.barber}
+                onChange={(event) =>
+                  setBookingForm((currentForm) => ({
+                    ...currentForm,
+                    barber: event.target.value,
+                    time: "",
+                  }))
+                }
+                className="border border-black/20 px-4 py-4 outline-none"
+              >
                 <option>Select Barber</option>
-                <option>Brady Adams</option>
-                <option>Marcus Lee</option>
-                <option>Theo Grant</option>
+                {barbers.map((barber) => (
+                  <option key={barber.name}>{barber.name}</option>
+                ))}
               </select>
+
               <input
-                placeholder="Preferred Date"
+                type="date"
+                min={getTodayDate()}
+                value={bookingForm.date}
+                onChange={(event) =>
+                  setBookingForm((currentForm) => ({
+                    ...currentForm,
+                    date: event.target.value,
+                    time: "",
+                  }))
+                }
                 className="border border-black/20 px-4 py-4 outline-none"
               />
-              <button className="bg-black px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white">
+
+              <select
+                value={bookingForm.time}
+                onChange={(event) =>
+                  setBookingForm((currentForm) => ({
+                    ...currentForm,
+                    time: event.target.value,
+                  }))
+                }
+                disabled={!availableTimes.length}
+                className="border border-black/20 px-4 py-4 outline-none disabled:bg-black/5 disabled:text-black/40"
+              >
+                <option value="">
+                  {bookingForm.date && bookingForm.barber && totalDuration
+                    ? "Select Time"
+                    : "Select service, barber, and date first"}
+                </option>
+                {availableTimes.map((time) => (
+                  <option key={time} value={time}>
+                    {formatTime(time)}
+                  </option>
+                ))}
+              </select>
+
+              {selectedServices.length > 0 && (
+                <div className="border border-black/10 bg-black/[0.03] p-4 text-sm text-black/70">
+                  <div className="flex justify-between gap-4">
+                    <span>Total</span>
+                    <span className="font-bold text-black">${totalPrice}</span>
+                  </div>
+                  <div className="mt-2 flex justify-between gap-4">
+                    <span>Estimated duration</span>
+                    <span className="font-bold text-black">
+                      {totalDuration} min
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {bookingMessage && (
+                <p className="border border-black/10 bg-black/[0.03] px-4 py-3 text-sm text-black/70">
+                  {bookingMessage}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className="bg-black px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white"
+              >
                 Request Booking
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </section>
 

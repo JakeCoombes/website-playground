@@ -50,6 +50,8 @@ function App() {
   const [page, setPageState] = useState<Page>(() =>
     getPageFromPath(window.location.pathname)
   );
+  const [isPreviewNavVisible, setIsPreviewNavVisible] = useState(true);
+  const shouldAutoHideNav = page !== "home";
 
   const setPage = (nextPage: Page) => {
     setPageState(nextPage);
@@ -72,25 +74,82 @@ function App() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  useEffect(() => {
+    setIsPreviewNavVisible(true);
+
+    if (!shouldAutoHideNav) {
+      return;
+    }
+
+    const hideNavTimer = window.setTimeout(() => {
+      setIsPreviewNavVisible(false);
+    }, 2200);
+
+    return () => window.clearTimeout(hideNavTimer);
+  }, [page, shouldAutoHideNav]);
+
+  useEffect(() => {
+    if (!shouldAutoHideNav) {
+      return;
+    }
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (event.clientY <= 18) {
+        setIsPreviewNavVisible(true);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [shouldAutoHideNav]);
+
   return (
     <div
       className={
         page === "lily"
           ? "min-h-screen overflow-x-hidden"
           : "min-h-screen overflow-x-hidden bg-black text-white"
-      }
-    >
+        }
+      >
+      {shouldAutoHideNav && (
+        <button
+          type="button"
+          aria-label="Show project navigation"
+          onFocus={() => setIsPreviewNavVisible(true)}
+          onMouseEnter={() => setIsPreviewNavVisible(true)}
+          className="fixed left-0 top-0 z-[2147483647] h-5 w-full bg-transparent"
+        />
+      )}
+
       <nav
         style={{
-          position: "sticky",
+          position: shouldAutoHideNav ? "fixed" : "sticky",
           top: 0,
+          left: 0,
+          right: 0,
           zIndex: 2147483647,
           isolation: "isolate",
+          transform:
+            shouldAutoHideNav && !isPreviewNavVisible
+              ? "translateY(-100%)"
+              : "translateY(0)",
+          transition: "transform 260ms ease",
+          backgroundColor: "rgba(0, 0, 0, 0.45)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}
+        onFocus={() => setIsPreviewNavVisible(true)}
+        onMouseEnter={() => setIsPreviewNavVisible(true)}
+        onMouseLeave={() => {
+          if (shouldAutoHideNav) {
+            setIsPreviewNavVisible(false);
+          }
         }}
         className={
           page === "lily" || page === "karen"
-            ? "hidden items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white md:flex"
-            : "flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white"
+            ? "hidden items-center justify-between gap-4 px-6 py-4 text-white shadow-lg shadow-black/20 md:flex"
+            : "flex flex-wrap items-center justify-between gap-4  px-6 py-4 text-white shadow-lg shadow-black/20"
         }
       >
         <button onClick={() => setPage("home")} className="text-xl font-bold">
