@@ -190,7 +190,7 @@ export default async function handler(req, res) {
       replyTo: inquiry.email,
     });
 
-    await Promise.all([
+    const followUpResults = await Promise.allSettled([
       sendEmail({
         to: inquiry.email,
         subject: "We received your Le Clos Marie-Louise inquiry",
@@ -199,6 +199,12 @@ export default async function handler(req, res) {
       }),
       sendText(inquiryText),
     ]);
+
+    followUpResults.forEach((result) => {
+      if (result.status === "rejected") {
+        console.error(result.reason);
+      }
+    });
 
     return res.status(200).json({ ok: true });
   } catch (error) {
