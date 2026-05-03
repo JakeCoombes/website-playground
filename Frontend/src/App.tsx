@@ -32,7 +32,7 @@ function App() {
           isolation: "isolate",
         }}
         className={
-          page === "lily"
+          page === "lily" || page === "karen"
             ? "hidden items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white md:flex"
             : "flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white"
         }
@@ -41,7 +41,7 @@ function App() {
           Jake Builds
         </button>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 hidden md:flex">
           <button
             onClick={() => setPage("karen")}
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"

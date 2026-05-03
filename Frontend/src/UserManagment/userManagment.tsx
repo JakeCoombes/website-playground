@@ -179,7 +179,7 @@ function UserManagment() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-73px)] bg-[#202020] px-5 py-12 text-white">
+    <main className="relative min-h-[calc(100vh-73px)] bg-[#202020] px-5 py-12 text-white">
       {/* <p className="text-center text-2xl">Currently viewing: userManagement</p> */}
 
       {errorMessage && (
@@ -288,23 +288,23 @@ function UserManagment() {
         </div>
       )}
 
+      {session && (
+        <div className="absolute left-0 top-0 z-10 flex flex-col items-start gap-3 border-b border-r border-slate-600 px-5 py-5 text-sm text-slate-300 sm:flex-row sm:items-center">
+          <span>Signed in as {session.user.email}</span>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="rounded-full border border-slate-600 px-4 py-2 font-semibold text-slate-200 transition hover:border-red-500 hover:text-red-200"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+
       <section className="mx-auto mt-12 flex max-w-5xl flex-col items-center ">
         <h1 className="text-center text-5xl font-extrabold leading-tight md:text-6xl">
           User <span className="text-[#a9caa8]">Management</span>
         </h1>
-
-        {session && (
-          <div className="mt-5 flex flex-col items-center gap-3 text-sm text-slate-300 sm:flex-row">
-            <span>Signed in as {session.user.email}</span>
-            <button
-              type="button"
-              onClick={handleSignOut}
-              className="rounded-full border border-slate-600 px-4 py-2 font-semibold text-slate-200 transition hover:border-red-500 hover:text-red-200"
-            >
-              Sign Out
-            </button>
-          </div>
-        )}
 
         {session && (
           <>
@@ -333,7 +333,7 @@ function UserManagment() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="h-10 min-w-32 rounded-full border border-[#00862f] bg-black px-6 text-sm font-extrabold text-zinc-400 transition hover:border-[#36d264] hover:text-white"
+                className="h-10 w-fit justify-self-center rounded-full border border-[#00862f] bg-black px-6 text-sm font-extrabold text-zinc-400 transition hover:border-[#36d264] hover:text-white"
               >
                 {isLoading ? "LOADING..." : "ADD USER"}
               </button>

@@ -319,7 +319,7 @@ export default function LilyDupuis() {
         >
           {[...imageStrip, ...imageStrip].map((image, index) => (
             <div
-              key={image}
+              key={`desktop-${image}-${index}`}
               className="h-[420px] md:h-[520px]"
               style={{
                 flex: "0 0 calc((100% - 60px) / 6)",
@@ -352,7 +352,7 @@ export default function LilyDupuis() {
         >
           {[...imageStrip, ...imageStrip].map((image, index) => (
             <div
-              key={image}
+              key={`mobile-${image}-${index}`}
               className="h-[420px] md:h-[520px]"
               style={{
                 flex: "0 0 calc((100% - 20px) / 3)",
