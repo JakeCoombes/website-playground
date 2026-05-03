@@ -1,4 +1,85 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+
+type InquiryForm = {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  company: string;
+  location: string;
+  eventType: string;
+  guestCount: string;
+  preferredDate: string;
+  message: string;
+};
+
+const emptyInquiryForm: InquiryForm = {
+  name: "",
+  email: "",
+  phone: "",
+  role: "",
+  company: "",
+  location: "",
+  eventType: "",
+  guestCount: "",
+  preferredDate: "",
+  message: "",
+};
+
+const formFields: Array<{
+  name: keyof Omit<InquiryForm, "message">;
+  type: string;
+  labels: {
+    fr: string;
+    en: string;
+  };
+}> = [
+  {
+    name: "name",
+    type: "text",
+    labels: { fr: "Prenom et nom", en: "First and last name" },
+  },
+  {
+    name: "email",
+    type: "email",
+    labels: { fr: "Adresse e-mail", en: "Email address" },
+  },
+  {
+    name: "phone",
+    type: "tel",
+    labels: { fr: "Telephone", en: "Phone" },
+  },
+  {
+    name: "role",
+    type: "text",
+    labels: { fr: "Qui etes-vous ?", en: "Who are you?" },
+  },
+  {
+    name: "company",
+    type: "text",
+    labels: { fr: "Nom de l'entreprise", en: "Company name" },
+  },
+  {
+    name: "location",
+    type: "text",
+    labels: { fr: "Ville / Pays", en: "City / Country" },
+  },
+  {
+    name: "eventType",
+    type: "text",
+    labels: { fr: "Type d'evenement", en: "Event type" },
+  },
+  {
+    name: "guestCount",
+    type: "text",
+    labels: { fr: "Nombre d'invites estime", en: "Estimated guest count" },
+  },
+  {
+    name: "preferredDate",
+    type: "text",
+    labels: { fr: "Date souhaitee", en: "Preferred date" },
+  },
+];
 
 export default function LilyDupuis() {
   const cream = "#F3EEE6";
@@ -122,33 +203,66 @@ export default function LilyDupuis() {
         },
       ];
 
-  const formFields = isFrench
-    ? [
-        "Prenom et nom",
-        "Adresse e-mail",
-        "Telephone",
-        "Qui etes-vous ?",
-        "Nom de l'entreprise",
-        "Ville / Pays",
-        "Type d'evenement",
-        "Nombre d'invites estime",
-        "Date souhaitee",
-      ]
-    : [
-        "First and last name",
-        "Email address",
-        "Phone",
-        "Who are you?",
-        "Company name",
-        "City / Country",
-        "Event type",
-        "Estimated guest count",
-        "Preferred date",
-      ];
-
   const [activeReview, setActiveReview] = useState(0);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [inquiryForm, setInquiryForm] =
+    useState<InquiryForm>(emptyInquiryForm);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const handleInquiryChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+
+    setInquiryForm((currentForm) => ({
+      ...currentForm,
+      [name]: value,
+    }));
+  };
+
+  const handleInquirySubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitStatus("submitting");
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/lily-inquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...inquiryForm,
+          language,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Inquiry submission failed");
+      }
+
+      setInquiryForm(emptyInquiryForm);
+      setSubmitStatus("success");
+      setSubmitMessage(
+        isFrench
+          ? "Merci. Votre demande a ete envoyee, et une confirmation vient de vous etre adressee."
+          : "Thank you. Your inquiry has been sent, and a confirmation is on its way to your inbox."
+      );
+    } catch (error) {
+      console.error(error);
+      setSubmitStatus("error");
+      setSubmitMessage(
+        isFrench
+          ? "Desole, la demande n'a pas pu etre envoyee. Veuillez reessayer dans un instant."
+          : "Sorry, the inquiry could not be sent. Please try again in a moment."
+      );
+    }
+  };
 
   useEffect(() => {
     const reviewInterval = setInterval(() => {
@@ -650,18 +764,29 @@ export default function LilyDupuis() {
             </p>
           </div>
 
-          <form className="mx-auto mt-10 max-w-2xl md:mt-12">
+          <form
+            onSubmit={handleInquirySubmit}
+            className="mx-auto mt-10 max-w-2xl md:mt-12"
+          >
             <div className="grid gap-4">
               {formFields.map((field) => (
                 <input
-                  key={field}
-                  placeholder={field}
+                  key={field.name}
+                  type={field.type}
+                  name={field.name}
+                  value={inquiryForm[field.name]}
+                  onChange={handleInquiryChange}
+                  placeholder={field.labels[language]}
+                  required={field.name === "name" || field.name === "email"}
                   className="w-full border border-white/20 bg-transparent px-4 py-3 text-sm outline-none placeholder:text-white/90 focus:border-white/60"
                   style={{ color: cream, caretColor: cream }}
                 />
               ))}
 
               <textarea
+                name="message"
+                value={inquiryForm.message}
+                onChange={handleInquiryChange}
                 placeholder={
                   isFrench
                     ? "Parlez-nous un peu de votre projet"
@@ -672,11 +797,32 @@ export default function LilyDupuis() {
                 style={{ color: cream, caretColor: cream }}
               />
 
+              {submitMessage && (
+                <p
+                  className="text-sm leading-6"
+                  style={{
+                    color:
+                      submitStatus === "error"
+                        ? "#F8D7DA"
+                        : "rgba(243,238,230,0.85)",
+                  }}
+                >
+                  {submitMessage}
+                </p>
+              )}
+
               <button
-                type="button"
-                className="mt-6 w-full border border-white/40 px-8 py-3 text-xs uppercase tracking-[0.18em] hover:bg-white/10 sm:w-fit"
+                type="submit"
+                disabled={submitStatus === "submitting"}
+                className="mt-6 w-full border border-white/40 px-8 py-3 text-xs uppercase tracking-[0.18em] hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
               >
-                {isFrench ? "Suivant" : "Next"}
+                {submitStatus === "submitting"
+                  ? isFrench
+                    ? "Envoi..."
+                    : "Sending..."
+                  : isFrench
+                    ? "Envoyer"
+                    : "Submit"}
               </button>
             </div>
           </form>

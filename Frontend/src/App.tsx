@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import KarenBikeFittingServices from "./KarenBikeFitting/KarenBikeFittingServices";
 import LocalBusinessDemoGenerator from "./WebsiteGenerator/LocalBusinessDemoGenerator";
 import CURATE from "./CURATE/CURATE";
@@ -15,8 +15,62 @@ type Page =
   | "applyAI"
   | "userManagement";
 
+const pageSlugs: Record<Page, string> = {
+  home: "",
+  karen: "advantagebikefitting",
+  lily: "lilydupuis",
+  curate: "curate",
+  demoGenerator: "demogenerator",
+  applyAI: "applyai",
+  userManagement: "usermanagement",
+};
+
+const slugPages: Record<string, Page> = {
+  advantagebikefitting: "karen",
+  karen: "karen",
+  karenbikefitting: "karen",
+  lilydupuis: "lily",
+  lily: "lily",
+  curate: "curate",
+  demogenerator: "demoGenerator",
+  "demo-generator": "demoGenerator",
+  applyai: "applyAI",
+  "apply-ai": "applyAI",
+  usermanagement: "userManagement",
+  "user-management": "userManagement",
+};
+
+function getPageFromPath(pathname: string): Page {
+  const slug = pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+
+  return slugPages[slug] ?? "home";
+}
+
 function App() {
-  const [page, setPage] = useState<Page>("home");
+  const [page, setPageState] = useState<Page>(() =>
+    getPageFromPath(window.location.pathname)
+  );
+
+  const setPage = (nextPage: Page) => {
+    setPageState(nextPage);
+
+    const nextSlug = pageSlugs[nextPage];
+    const nextPath = nextSlug ? `/${nextSlug}` : "/";
+
+    if (window.location.pathname !== nextPath) {
+      window.history.pushState(null, "", nextPath);
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setPageState(getPageFromPath(window.location.pathname));
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   return (
     <div
