@@ -36,3 +36,11 @@ body {
   box-shadow: 0 0 0 1000px #1f2937 inset;
   caret-color: #ffffff;
 }
+
+.lily-contact-field:-webkit-autofill,
+.lily-contact-field:-webkit-autofill:hover,
+.lily-contact-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: #2f2d28;
+  box-shadow: 0 0 0 1000px #e8e0d4 inset;
+  caret-color: #2f2d28;
+}

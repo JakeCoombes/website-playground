@@ -4,9 +4,10 @@ export default function LilyDupuis() {
   const cream = "#F3EEE6";
   const ink = "#2F2D28";
   const olive = "#5C614F";
-  const oliveSoft = "#7D8467";
+  const oliveSoft = "#636947";
 
-  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const desktopCarouselRef = useRef<HTMLDivElement | null>(null);
+  const mobileCarouselRef = useRef<HTMLDivElement | null>(null);
   const [language, setLanguage] = useState<"fr" | "en">("fr");
   const isFrench = language === "fr";
 
@@ -157,21 +158,28 @@ export default function LilyDupuis() {
     return () => clearInterval(reviewInterval);
   }, []);
 
-  useEffect(() => {
-    const carousel = carouselRef.current;
+  const startCarousel = (carousel: HTMLDivElement | null, scrollAmount: number) => {
     if (!carousel) return;
 
-    const interval = setInterval(() => {
+    return setInterval(() => {
       const halfwayPoint = carousel.scrollWidth / 2;
 
       if (carousel.scrollLeft >= halfwayPoint) {
         carousel.scrollLeft = 0;
       } else {
-        carousel.scrollBy({ left: 400, behavior: "smooth" });
+        carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
       }
     }, 2000);
+  };
 
-    return () => clearInterval(interval);
+  useEffect(() => {
+    const desktopInterval = startCarousel(desktopCarouselRef.current, 400);
+    const mobileInterval = startCarousel(mobileCarouselRef.current, 220);
+
+    return () => {
+      if (desktopInterval) clearInterval(desktopInterval);
+      if (mobileInterval) clearInterval(mobileInterval);
+    };
   }, []);
 
   return (
@@ -235,10 +243,14 @@ export default function LilyDupuis() {
               </p>
             </a>
 
-            <nav className="hidden gap-8 md:flex">
-              <a href="#about">{isFrench ? "Le domaine" : "The Estate"}</a>
-              <a href="#faq">FAQ</a>
-              <a href="#contact" className="border border-white px-4 py-2">
+            <nav className="hidden items-center gap-8 md:flex">
+              <a href="#about" className="flex h-10 items-center">
+                {isFrench ? "Le domaine" : "The Estate"}
+              </a>
+              <a href="#faq" className="flex h-10 items-center">
+                FAQ
+              </a>
+              <a href="#contact" className="flex h-10 items-center border border-white px-4">
                 {isFrench ? "Reserver" : "Reserve"}
               </a>
             </nav>
@@ -298,7 +310,7 @@ export default function LilyDupuis() {
       {/* HORIZONTAL IMAGE STRIP DESKTOP*/}
       <section id="gallery" className="hidden md:block pb-20">
         <div
-          ref={carouselRef}
+          ref={desktopCarouselRef}
           className="flex gap-3 overflow-x-auto px-3 scroll-smooth"
           style={{
             scrollbarWidth: "none",
@@ -331,7 +343,7 @@ export default function LilyDupuis() {
       {/* HORIZONTAL IMAGE STRIP MOBILE*/}
       <section id="gallery" className="block md:hidden pb-20">
         <div
-          ref={carouselRef}
+          ref={mobileCarouselRef}
           className="flex gap-3 overflow-x-auto px-3 scroll-smooth"
           style={{
             scrollbarWidth: "none",
