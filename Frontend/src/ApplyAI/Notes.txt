@@ -1,0 +1,45 @@
+
+AI Job Agent / Application CRM 
+
+Core flow: 
+Resume profile 
+Upload resume PDF Or manually add experience, skills, projects, education 
+AI turns it into a structured profile 
+Job matching 
+User chooses target roles, locations, salary, remote/hybrid 
+App finds jobs they’re qualified for 
+AI gives a match score: skills matched missing skills why you’re a fit 
+Application assistant 
+Generates tailored resume bullets 
+Generates cover letter 
+Generates short answers for application forms 
+Saves each customized version 
+Apply workflow 
+Safer version: opens the application link and pre-fills/generated answers for the user to review 
+Advanced version: browser automation for certain sites, but with user approval before submission 
+Contact finder 
+Finds relevant people: recruiter hiring manager engineering manager team lead 
+Saves name, title, company, LinkedIn/email if available 
+Email outreach 
+AI writes personalized emails 
+User reviews before sending 
+Tracks sent, replied, follow-up needed 
+Application tracker 
+Company 
+Role 
+Job URL 
+Status 
+Resume version used 
+Cover letter used 
+Contacts reached out to 
+Follow-up dates 
+Interview notes 
+Important boundary Don’t make it secretly mass-apply or spam people. 
+Make it user-approved: AI can recommend, draft, prefill, and queue actions — but the user clicks approve before applications or emails are sent. 
+That makes it more professional and avoids looking like a spam bot. 
+Best MVP 
+Build this first: Resume upload/parser Job tracker Paste job description → AI match score Tailored resume + cover letter generator Outreach email generator Dashboard showing applications and follow-ups 
+
+Then add automated job searching and contact finding later. 
+
+Portfolio pitch “I built an AI-powered job search CRM that parses a user’s resume, recommends relevant roles, generates tailored application materials, identifies networking contacts, drafts outreach emails, and tracks the full application pipeline.”
