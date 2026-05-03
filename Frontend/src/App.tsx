@@ -3,8 +3,15 @@ import KarenBikeFittingServices from "./KarenBikeFitting/KarenBikeFittingService
 import LocalBusinessDemoGenerator from "./WebsiteGenerator/LocalBusinessDemoGenerator";
 import CURATE from "./CURATE/CURATE";
 import LilyDupuis from "./LilyDupuis/LilyDupuis";
+import UserManagment from "./UserManagment/userManagment";
 
-type Page = "home" | "karen" | "lily" | "curate" | "demoGenerator";
+type Page =
+  | "home"
+  | "karen"
+  | "lily"
+  | "curate"
+  | "demoGenerator"
+  | "userManagement";
 
 function App() {
   const [page, setPage] = useState<Page>("home");
@@ -56,6 +63,13 @@ function App() {
           >
             Demo Generator
           </button>
+
+          <button
+            onClick={() => setPage("userManagement")}
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
+          >
+            User Management
+          </button>
         </div>
       </nav>
 
@@ -101,6 +115,13 @@ function App() {
             >
               Open Demo Generator
             </button>
+
+            <button
+              onClick={() => setPage("userManagement")}
+              className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
+            >
+              Open User Management
+            </button>
           </div>
         </section>
       )}
@@ -109,6 +130,7 @@ function App() {
       {page === "lily" && <LilyDupuis />}
       {page === "curate" && <CURATE />}
       {page === "demoGenerator" && <LocalBusinessDemoGenerator />}
+      {page === "userManagement" && <UserManagment />}
     </div>
   );
 }
