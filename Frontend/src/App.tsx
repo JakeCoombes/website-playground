@@ -25,6 +25,12 @@ function App() {
       }
     >
       <nav
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 2147483647,
+          isolation: "isolate",
+        }}
         className={
           page === "lily"
             ? "hidden items-center justify-between gap-4 border-b border-slate-800 bg-black px-6 py-4 text-white md:flex"

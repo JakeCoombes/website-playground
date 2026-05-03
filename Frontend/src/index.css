@@ -24,3 +24,15 @@ body {
 #contact textarea::placeholder {
   color: rgba(255, 255, 255, 0.95);
 }
+
+.user-management-input {
+  color-scheme: dark;
+}
+
+.user-management-input:-webkit-autofill,
+.user-management-input:-webkit-autofill:hover,
+.user-management-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  box-shadow: 0 0 0 1000px #1f2937 inset;
+  caret-color: #ffffff;
+}
