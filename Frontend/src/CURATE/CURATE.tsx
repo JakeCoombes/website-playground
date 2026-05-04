@@ -995,15 +995,6 @@ export default function Curate() {
                 </>
               )}
 
-              <div
-                id="square-card-container"
-                className={
-                  isApplePayAvailable
-                    ? "hidden min-h-14 border border-black/20 px-4 py-4 sm:block"
-                    : "min-h-14 border border-black/20 px-4 py-4"
-                }
-              />
-
               <input
                 placeholder="Name on card"
                 value={cardholderName}
@@ -1013,6 +1004,15 @@ export default function Curate() {
                   isApplePayAvailable
                     ? "hidden border border-black/20 px-4 py-4 outline-none sm:block"
                     : "border border-black/20 px-4 py-4 outline-none"
+                }
+              />
+
+              <div
+                id="square-card-container"
+                className={
+                  isApplePayAvailable
+                    ? "hidden min-h-14 border border-black/20 px-4 py-4 sm:block"
+                    : "min-h-14 border border-black/20 px-4 py-4"
                 }
               />
 
