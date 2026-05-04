@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Service = {
   name: string;
@@ -927,9 +928,10 @@ export default function Curate() {
         </div>
       </section>
 
-      {isCheckoutOpen && (
+      {isCheckoutOpen &&
+        createPortal(
         <div
-          className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/70 px-5 text-black"
+          className="fixed inset-0 z-[2147483647] flex items-end justify-center bg-black/70 px-3 py-3 text-black sm:items-center sm:px-5"
           style={{
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
@@ -937,14 +939,14 @@ export default function Curate() {
         >
           <form
             onSubmit={handleCheckoutSubmit}
-            className="grid max-h-[90vh] w-full max-w-2xl gap-6 overflow-y-auto bg-white p-6 shadow-2xl md:p-8 rounded-lg border border-black/20"
+            className="grid max-h-[92vh] w-full max-w-2xl gap-4 overflow-y-auto rounded-lg border border-black/20 bg-white p-4 shadow-2xl sm:gap-6 sm:p-6 md:p-8"
           >
-            <div className="flex items-start justify-between gap-6">
+            <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-black/45">
                   Checkout
                 </p>
-                <h3 className="mt-2 text-3xl font-black uppercase">
+                <h3 className="mt-2 text-2xl font-black uppercase leading-none sm:text-3xl">
                   Secure your chair.
                 </h3>
               </div>
@@ -952,18 +954,18 @@ export default function Curate() {
               <button
                 type="button"
                 onClick={() => setIsCheckoutOpen(false)}
-                className="border border-black/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-black/60 hover:bg-black hover:text-white"
+                className="shrink-0 border border-black/20 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-black/60 hover:bg-black hover:text-white sm:text-xs sm:tracking-[0.16em]"
               >
                 Close
               </button>
             </div>
 
             <div className="border border-black/10 bg-black/[0.03] p-4 text-sm text-black/70">
-              <div className="flex justify-between gap-4">
+              <div className="grid gap-2 sm:flex sm:justify-between sm:gap-4">
                 <span>{selectedServices.map((service) => service.name).join(", ")}</span>
                 <span className="font-bold text-black">${totalPrice}</span>
               </div>
-              <div className="mt-2 flex justify-between gap-4">
+              <div className="mt-2 grid gap-2 sm:flex sm:justify-between sm:gap-4">
                 <span>
                   {bookingForm.barber} · {bookingForm.date} ·{" "}
                   {bookingForm.time ? formatTime(bookingForm.time) : ""}
@@ -979,13 +981,13 @@ export default function Curate() {
                     type="button"
                     onClick={handleApplePayCheckout}
                     disabled={isSquareLoading}
-                    className="bg-black px-6 py-4 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    className="h-12 overflow-hidden rounded-md bg-black px-6 text-sm font-bold leading-none text-white disabled:cursor-not-allowed disabled:opacity-60 sm:h-14"
                     aria-label={`Pay $${totalPrice} with Apple Pay`}
                   >
                     Pay with Apple Pay
                   </button>
 
-                  <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-black/40">
+                  <div className="hidden items-center gap-3 text-xs uppercase tracking-[0.18em] text-black/40 sm:flex">
                     <span className="h-px flex-1 bg-black/10" />
                     <span>or pay by card</span>
                     <span className="h-px flex-1 bg-black/10" />
@@ -998,12 +1000,20 @@ export default function Curate() {
                 value={cardholderName}
                 onChange={(event) => setCardholderName(event.target.value)}
                 autoComplete="cc-name"
-                className="border border-black/20 px-4 py-4 outline-none"
+                className={
+                  isApplePayAvailable
+                    ? "hidden border border-black/20 px-4 py-4 outline-none sm:block"
+                    : "border border-black/20 px-4 py-4 outline-none"
+                }
               />
 
               <div
                 id="square-card-container"
-                className="min-h-14 border border-black/20 px-4 py-4"
+                className={
+                  isApplePayAvailable
+                    ? "hidden min-h-14 border border-black/20 px-4 py-4 sm:block"
+                    : "min-h-14 border border-black/20 px-4 py-4"
+                }
               />
 
               {isSquareLoading && (
@@ -1025,15 +1035,20 @@ export default function Curate() {
             <button
               type="submit"
               disabled={isSquareLoading}
-              className="bg-black px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className={
+                isApplePayAvailable
+                  ? "hidden bg-black px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white disabled:cursor-not-allowed disabled:opacity-60 sm:block"
+                  : "bg-black px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white disabled:cursor-not-allowed disabled:opacity-60"
+              }
             >
               {isSquareLoading
                 ? "Processing..."
                 : `Pay $${totalPrice} & Confirm Booking`}
             </button>
           </form>
-        </div>
-      )}
+        </div>,
+          document.body
+        )}
 
       {/* TEAM */}
       <section id="team" className="px-6 py-24">
