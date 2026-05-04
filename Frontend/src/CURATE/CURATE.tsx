@@ -27,6 +27,17 @@ type SquareCard = {
   }>;
 };
 
+type SquareTokenResult = {
+  status: string;
+  token?: string;
+  errors?: Array<{ message?: string }>;
+};
+
+type SquareApplePay = {
+  destroy: () => Promise<boolean>;
+  tokenize: () => Promise<SquareTokenResult>;
+};
+
 const services: Service[] = [
   { name: "Signature Cut", price: 45, duration: 60 },
   { name: "Skin Fade", price: 50, duration: 60 },
@@ -83,6 +94,15 @@ declare global {
     Square?: {
       payments: (applicationId: string, locationId: string) => {
         card: () => Promise<SquareCard>;
+        applePay: (paymentRequest: unknown) => Promise<SquareApplePay>;
+        paymentRequest: (options: {
+          countryCode: string;
+          currencyCode: string;
+          total: {
+            amount: string;
+            label: string;
+          };
+        }) => unknown;
       };
     };
   }
@@ -123,6 +143,7 @@ function timesOverlap(
 
 export default function Curate() {
   const squareCardRef = useRef<SquareCard | null>(null);
+  const squareApplePayRef = useRef<SquareApplePay | null>(null);
   const [bookings, setBookings] = useState<Booking[]>(seededBookings);
   const [bookingForm, setBookingForm] = useState({
     name: "",
@@ -140,6 +161,27 @@ export default function Curate() {
   const [isSquareLoading, setIsSquareLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
   const [cardholderName, setCardholderName] = useState("");
+  const [isApplePayAvailable, setIsApplePayAvailable] = useState(false);
+
+  const selectedServices = useMemo(
+    () =>
+      bookingForm.serviceSelections
+        .map((serviceName) =>
+          services.find((service) => service.name === serviceName)
+        )
+        .filter((service): service is Service => Boolean(service)),
+    [bookingForm.serviceSelections]
+  );
+
+  const totalDuration = selectedServices.reduce(
+    (total, service) => total + service.duration,
+    0
+  );
+
+  const totalPrice = selectedServices.reduce(
+    (total, service) => total + service.price,
+    0
+  );
 
   useEffect(() => {
     const storedBookings = window.localStorage.getItem(storageKey);
@@ -193,10 +235,11 @@ export default function Curate() {
         document.head.appendChild(script);
       });
 
-    const initializeSquareCard = async () => {
+    const initializeSquarePayments = async () => {
       try {
         setIsSquareLoading(true);
         setCheckoutError("");
+        setIsApplePayAvailable(false);
 
         const missingPublicCredentials = [
           !applicationId ? "VITE_SQUARE_APPLICATION_ID" : "",
@@ -224,6 +267,28 @@ export default function Curate() {
         } else {
           await card.destroy();
         }
+
+        try {
+          const paymentRequest = payments.paymentRequest({
+            countryCode: "US",
+            currencyCode: "USD",
+            total: {
+              amount: totalPrice.toFixed(2),
+              label: "CURATE appointment",
+            },
+          });
+          const applePay = await payments.applePay(paymentRequest);
+
+          if (isMounted) {
+            squareApplePayRef.current = applePay;
+            setIsApplePayAvailable(true);
+          } else {
+            await applePay.destroy();
+          }
+        } catch (applePayError) {
+          console.info("Apple Pay is not available in this browser.", applePayError);
+          setIsApplePayAvailable(false);
+        }
       } catch (error) {
         console.error(error);
         setCheckoutError(
@@ -238,34 +303,17 @@ export default function Curate() {
       }
     };
 
-    initializeSquareCard();
+    initializeSquarePayments();
 
     return () => {
       isMounted = false;
       squareCardRef.current?.destroy().catch(console.error);
+      squareApplePayRef.current?.destroy().catch(console.error);
       squareCardRef.current = null;
+      squareApplePayRef.current = null;
+      setIsApplePayAvailable(false);
     };
-  }, [isCheckoutOpen]);
-
-  const selectedServices = useMemo(
-    () =>
-      bookingForm.serviceSelections
-        .map((serviceName) =>
-          services.find((service) => service.name === serviceName)
-        )
-        .filter((service): service is Service => Boolean(service)),
-    [bookingForm.serviceSelections]
-  );
-
-  const totalDuration = selectedServices.reduce(
-    (total, service) => total + service.duration,
-    0
-  );
-
-  const totalPrice = selectedServices.reduce(
-    (total, service) => total + service.price,
-    0
-  );
+  }, [isCheckoutOpen, totalPrice]);
 
   const availableTimes = useMemo(() => {
     if (!bookingForm.date || !bookingForm.barber || !totalDuration) {
@@ -378,19 +426,7 @@ export default function Curate() {
     setIsCheckoutOpen(true);
   };
 
-  const handleCheckoutSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!squareCardRef.current) {
-      setCheckoutError("Square checkout is still loading.");
-      return;
-    }
-
-    if (!cardholderName.trim()) {
-      setCheckoutError("Enter the name on the card.");
-      return;
-    }
-
+  const completeSquarePayment = async (sourceId: string) => {
     if (!availableTimes.includes(bookingForm.time)) {
       setIsCheckoutOpen(false);
       setBookingMessage("That time is no longer available. Choose another slot.");
@@ -401,24 +437,13 @@ export default function Curate() {
     setIsSquareLoading(true);
 
     try {
-      const tokenResult = await squareCardRef.current.tokenize();
-
-      if (tokenResult.status !== "OK" || !tokenResult.token) {
-        setCheckoutError(
-          tokenResult.errors?.[0]?.message ||
-            "Card details could not be verified."
-        );
-        setIsSquareLoading(false);
-        return;
-      }
-
       const paymentResponse = await fetch("/api/square-payment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sourceId: tokenResult.token,
+          sourceId,
           amount: totalPrice,
           booking: {
             name: bookingForm.name,
@@ -479,6 +504,70 @@ export default function Curate() {
     setCardholderName("");
     setIsSquareLoading(false);
     setIsCheckoutOpen(false);
+  };
+
+  const handleCheckoutSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!squareCardRef.current) {
+      setCheckoutError("Square checkout is still loading.");
+      return;
+    }
+
+    if (!cardholderName.trim()) {
+      setCheckoutError("Enter the name on the card.");
+      return;
+    }
+
+    setCheckoutError("");
+    setIsSquareLoading(true);
+
+    try {
+      const tokenResult = await squareCardRef.current.tokenize();
+
+      if (tokenResult.status !== "OK" || !tokenResult.token) {
+        setCheckoutError(
+          tokenResult.errors?.[0]?.message ||
+            "Card details could not be verified."
+        );
+        setIsSquareLoading(false);
+        return;
+      }
+
+      await completeSquarePayment(tokenResult.token);
+    } catch (error) {
+      console.error(error);
+      setCheckoutError("Payment could not be completed. Please try again.");
+      setIsSquareLoading(false);
+    }
+  };
+
+  const handleApplePayCheckout = async () => {
+    if (!squareApplePayRef.current) {
+      setCheckoutError("Apple Pay is not available in this browser.");
+      return;
+    }
+
+    setCheckoutError("");
+    setIsSquareLoading(true);
+
+    try {
+      const tokenResult = await squareApplePayRef.current.tokenize();
+
+      if (tokenResult.status !== "OK" || !tokenResult.token) {
+        setCheckoutError(
+          tokenResult.errors?.[0]?.message || "Apple Pay could not be verified."
+        );
+        setIsSquareLoading(false);
+        return;
+      }
+
+      await completeSquarePayment(tokenResult.token);
+    } catch (error) {
+      console.error(error);
+      setCheckoutError("Apple Pay could not be completed. Please try again.");
+      setIsSquareLoading(false);
+    }
   };
 
   return (
@@ -884,6 +973,26 @@ export default function Curate() {
             </div>
 
             <div className="grid gap-3">
+              {isApplePayAvailable && (
+                <>
+                  <button
+                    type="button"
+                    onClick={handleApplePayCheckout}
+                    disabled={isSquareLoading}
+                    className="bg-black px-6 py-4 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    aria-label={`Pay $${totalPrice} with Apple Pay`}
+                  >
+                    Pay with Apple Pay
+                  </button>
+
+                  <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-black/40">
+                    <span className="h-px flex-1 bg-black/10" />
+                    <span>or pay by card</span>
+                    <span className="h-px flex-1 bg-black/10" />
+                  </div>
+                </>
+              )}
+
               <input
                 placeholder="Name on card"
                 value={cardholderName}
