@@ -197,8 +197,15 @@ export default function Curate() {
         setIsSquareLoading(true);
         setCheckoutError("");
 
-        if (!applicationId || !locationId) {
-          throw new Error("Square checkout is missing public credentials.");
+        const missingPublicCredentials = [
+          !applicationId ? "VITE_SQUARE_APPLICATION_ID" : "",
+          !locationId ? "VITE_SQUARE_LOCATION_ID" : "",
+        ].filter(Boolean);
+
+        if (missingPublicCredentials.length) {
+          throw new Error(
+            `Square checkout is missing: ${missingPublicCredentials.join(", ")}`
+          );
         }
 
         await loadSquareScript();
@@ -219,7 +226,9 @@ export default function Curate() {
       } catch (error) {
         console.error(error);
         setCheckoutError(
-          "Square checkout could not load. Check the Square environment variables."
+          error instanceof Error
+            ? error.message
+            : "Square checkout could not load. Check the Square environment variables."
         );
       } finally {
         if (isMounted) {
@@ -824,7 +833,7 @@ export default function Curate() {
 
       {isCheckoutOpen && (
         <div
-          className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/70 px-5 text-black rounded-full"
+          className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/70 px-5 text-black"
           style={{
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
@@ -832,7 +841,7 @@ export default function Curate() {
         >
           <form
             onSubmit={handleCheckoutSubmit}
-            className="grid max-h-[90vh] w-full max-w-2xl gap-6 overflow-y-auto bg-white p-6 shadow-2xl md:p-8"
+            className="grid max-h-[90vh] w-full max-w-2xl gap-6 overflow-y-auto bg-white p-6 shadow-2xl md:p-8 rounded-lg border border-black/20"
           >
             <div className="flex items-start justify-between gap-6">
               <div>
