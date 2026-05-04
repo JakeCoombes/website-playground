@@ -13,7 +13,8 @@ type Page =
   | "curate"
   | "demoGenerator"
   | "applyAI"
-  | "userManagement";
+  | "userManagement"
+  | "resume";
 
 const pageSlugs: Record<Page, string> = {
   home: "",
@@ -23,6 +24,7 @@ const pageSlugs: Record<Page, string> = {
   demoGenerator: "demogenerator",
   applyAI: "applyai",
   userManagement: "usermanagement",
+  resume: "resume",
 };
 
 const slugPages: Record<string, Page> = {
@@ -38,6 +40,7 @@ const slugPages: Record<string, Page> = {
   "apply-ai": "applyAI",
   usermanagement: "userManagement",
   "user-management": "userManagement",
+  resume: "resume",
 };
 
 function getPageFromPath(pathname: string): Page {
@@ -51,7 +54,8 @@ function App() {
     getPageFromPath(window.location.pathname)
   );
   const [isPreviewNavVisible, setIsPreviewNavVisible] = useState(true);
-  const shouldAutoHideNav = page !== "home";
+  const shouldShowPreviewNav = page !== "resume";
+  const shouldAutoHideNav = shouldShowPreviewNav && page !== "home";
 
   const setPage = (nextPage: Page) => {
     setPageState(nextPage);
@@ -107,11 +111,13 @@ function App() {
   return (
     <div
       className={
-        page === "lily"
+        page === "resume"
+          ? "min-h-screen overflow-x-hidden bg-white text-black"
+          : page === "lily"
           ? "min-h-screen overflow-x-hidden"
           : "min-h-screen overflow-x-hidden bg-black text-white"
-        }
-      >
+      }
+    >
       {shouldAutoHideNav && (
         <button
           type="button"
@@ -122,6 +128,7 @@ function App() {
         />
       )}
 
+      {shouldShowPreviewNav && (
       <nav
         style={{
           position: shouldAutoHideNav ? "fixed" : "sticky",
@@ -200,6 +207,7 @@ function App() {
           </button>
         </div>
       </nav>
+      )}
 
       {page === "home" && (
         <section className="px-6 py-24 text-center">
@@ -267,6 +275,25 @@ function App() {
       {page === "demoGenerator" && <LocalBusinessDemoGenerator />}
       {page === "applyAI" && <ApplyAI />}
       {page === "userManagement" && <UserManagment />}
+      {page === "resume" && (
+        <main className="h-screen bg-neutral-100">
+          <object
+            data="/resume/jacob-coombes-resume.pdf"
+            type="application/pdf"
+            className="h-full w-full"
+            aria-label="Jacob Coombes resume"
+          >
+            <div className="flex min-h-screen items-center justify-center p-6 text-center text-black">
+              <a
+                href="/resume/jacob-coombes-resume.pdf"
+                className="border border-black px-5 py-3 font-semibold uppercase tracking-[0.12em]"
+              >
+                Open Resume PDF
+              </a>
+            </div>
+          </object>
+        </main>
+      )}
     </div>
   );
 }
