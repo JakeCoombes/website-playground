@@ -139,6 +139,7 @@ export default function Curate() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isSquareLoading, setIsSquareLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
+  const [cardholderName, setCardholderName] = useState("");
 
   useEffect(() => {
     const storedBookings = window.localStorage.getItem(storageKey);
@@ -385,6 +386,11 @@ export default function Curate() {
       return;
     }
 
+    if (!cardholderName.trim()) {
+      setCheckoutError("Enter the name on the card.");
+      return;
+    }
+
     if (!availableTimes.includes(bookingForm.time)) {
       setIsCheckoutOpen(false);
       setBookingMessage("That time is no longer available. Choose another slot.");
@@ -470,6 +476,7 @@ export default function Curate() {
     setBookingMessage(
       `Booked for ${formatTime(nextBooking.time)} on ${nextBooking.date}.`
     );
+    setCardholderName("");
     setIsSquareLoading(false);
     setIsCheckoutOpen(false);
   };
@@ -877,6 +884,14 @@ export default function Curate() {
             </div>
 
             <div className="grid gap-3">
+              <input
+                placeholder="Name on card"
+                value={cardholderName}
+                onChange={(event) => setCardholderName(event.target.value)}
+                autoComplete="cc-name"
+                className="border border-black/20 px-4 py-4 outline-none"
+              />
+
               <div
                 id="square-card-container"
                 className="min-h-14 border border-black/20 px-4 py-4"
