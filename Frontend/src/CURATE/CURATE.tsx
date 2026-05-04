@@ -133,6 +133,29 @@ function formatTime(time: string) {
   });
 }
 
+function formatBookingDate(date: string) {
+  if (!date) {
+    return "";
+  }
+
+  return new Date(`${date}T12:00:00`).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function formatTimeWindow(time: string, duration: number) {
+  if (!time || !duration) {
+    return "";
+  }
+
+  const startMinutes = timeToMinutes(time);
+  const endTime = minutesToTime(startMinutes + duration);
+
+  return `${formatTime(time)} - ${formatTime(endTime)} EST`;
+}
+
 function timesOverlap(
   startA: number,
   durationA: number,
@@ -966,11 +989,16 @@ export default function Curate() {
                 <span className="font-bold text-black">${totalPrice}</span>
               </div>
               <div className="mt-2 grid gap-2 sm:flex sm:justify-between sm:gap-4">
-                <span>
+                <span className="hidden">
                   {bookingForm.barber} · {bookingForm.date} ·{" "}
                   {bookingForm.time ? formatTime(bookingForm.time) : ""}
                 </span>
-                <span className="font-bold text-black">{totalDuration} min</span>
+                <span>
+                  {bookingForm.barber} | {formatBookingDate(bookingForm.date)}
+                </span>
+                <span className="font-bold text-black">
+                  {formatTimeWindow(bookingForm.time, totalDuration)}
+                </span>
               </div>
             </div>
 
@@ -995,7 +1023,7 @@ export default function Curate() {
                 </>
               )}
 
-              <input
+              {/* <input
                 placeholder="Name on card"
                 value={cardholderName}
                 onChange={(event) => setCardholderName(event.target.value)}
@@ -1005,7 +1033,7 @@ export default function Curate() {
                     ? "hidden border border-black/20 px-4 py-4 outline-none sm:block"
                     : "border border-black/20 px-4 py-4 outline-none"
                 }
-              />
+              /> */}
 
               <div
                 id="square-card-container"
