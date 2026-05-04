@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 type Service = {
   name: string;
@@ -15,6 +15,16 @@ type Booking = {
   date: string;
   time: string;
   duration: number;
+};
+
+type SquareCard = {
+  attach: (selector: string) => Promise<void>;
+  destroy: () => Promise<boolean>;
+  tokenize: () => Promise<{
+    status: string;
+    token?: string;
+    errors?: Array<{ message?: string }>;
+  }>;
 };
 
 const services: Service[] = [
@@ -66,6 +76,17 @@ const seededBookings: Booking[] = [
 ];
 
 const storageKey = "curate-bookings";
+const squareScriptId = "square-web-payments-sdk";
+
+declare global {
+  interface Window {
+    Square?: {
+      payments: (applicationId: string, locationId: string) => {
+        card: () => Promise<SquareCard>;
+      };
+    };
+  }
+}
 
 function getTodayDate() {
   return new Date().toISOString().slice(0, 10);
@@ -101,6 +122,7 @@ function timesOverlap(
 }
 
 export default function Curate() {
+  const squareCardRef = useRef<SquareCard | null>(null);
   const [bookings, setBookings] = useState<Booking[]>(seededBookings);
   const [bookingForm, setBookingForm] = useState({
     name: "",
@@ -114,6 +136,9 @@ export default function Curate() {
   const [openServicePicker, setOpenServicePicker] = useState<number | null>(
     null
   );
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isSquareLoading, setIsSquareLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
   useEffect(() => {
     const storedBookings = window.localStorage.getItem(storageKey);
@@ -122,6 +147,95 @@ export default function Curate() {
       setBookings([...seededBookings, ...JSON.parse(storedBookings)]);
     }
   }, []);
+
+  useEffect(() => {
+    if (!isCheckoutOpen) {
+      return;
+    }
+
+    const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID;
+    const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID;
+    const squareEnvironment =
+      import.meta.env.VITE_SQUARE_ENVIRONMENT === "production"
+        ? "production"
+        : "sandbox";
+    const scriptUrl =
+      squareEnvironment === "production"
+        ? "https://web.squarecdn.com/v1/square.js"
+        : "https://sandbox.web.squarecdn.com/v1/square.js";
+    let isMounted = true;
+
+    const loadSquareScript = () =>
+      new Promise<void>((resolve, reject) => {
+        if (window.Square) {
+          resolve();
+          return;
+        }
+
+        const existingScript = document.getElementById(squareScriptId);
+
+        if (existingScript) {
+          existingScript.addEventListener("load", () => resolve(), {
+            once: true,
+          });
+          existingScript.addEventListener("error", () => reject(), {
+            once: true,
+          });
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.id = squareScriptId;
+        script.src = scriptUrl;
+        script.onload = () => resolve();
+        script.onerror = () => reject();
+        document.head.appendChild(script);
+      });
+
+    const initializeSquareCard = async () => {
+      try {
+        setIsSquareLoading(true);
+        setCheckoutError("");
+
+        if (!applicationId || !locationId) {
+          throw new Error("Square checkout is missing public credentials.");
+        }
+
+        await loadSquareScript();
+
+        if (!window.Square || !isMounted) {
+          return;
+        }
+
+        const payments = window.Square.payments(applicationId, locationId);
+        const card = await payments.card();
+        await card.attach("#square-card-container");
+
+        if (isMounted) {
+          squareCardRef.current = card;
+        } else {
+          await card.destroy();
+        }
+      } catch (error) {
+        console.error(error);
+        setCheckoutError(
+          "Square checkout could not load. Check the Square environment variables."
+        );
+      } finally {
+        if (isMounted) {
+          setIsSquareLoading(false);
+        }
+      }
+    };
+
+    initializeSquareCard();
+
+    return () => {
+      isMounted = false;
+      squareCardRef.current?.destroy().catch(console.error);
+      squareCardRef.current = null;
+    };
+  }, [isCheckoutOpen]);
 
   const selectedServices = useMemo(
     () =>
@@ -148,7 +262,7 @@ export default function Curate() {
       return [];
     }
 
-    const dayStart = 9 * 60;
+    const dayStart = 10 * 60;
     const dayEnd = 19 * 60;
     const slotStep = 30;
     const sameDayBookings = bookings.filter(
@@ -250,6 +364,75 @@ export default function Curate() {
       return;
     }
 
+    setBookingMessage("");
+    setIsCheckoutOpen(true);
+  };
+
+  const handleCheckoutSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!squareCardRef.current) {
+      setCheckoutError("Square checkout is still loading.");
+      return;
+    }
+
+    if (!availableTimes.includes(bookingForm.time)) {
+      setIsCheckoutOpen(false);
+      setBookingMessage("That time is no longer available. Choose another slot.");
+      return;
+    }
+
+    setCheckoutError("");
+    setIsSquareLoading(true);
+
+    try {
+      const tokenResult = await squareCardRef.current.tokenize();
+
+      if (tokenResult.status !== "OK" || !tokenResult.token) {
+        setCheckoutError(
+          tokenResult.errors?.[0]?.message ||
+            "Card details could not be verified."
+        );
+        setIsSquareLoading(false);
+        return;
+      }
+
+      const paymentResponse = await fetch("/api/square-payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sourceId: tokenResult.token,
+          amount: totalPrice,
+          booking: {
+            name: bookingForm.name,
+            contact: bookingForm.contact,
+            barber: bookingForm.barber,
+            services: selectedServices.map((service) => service.name),
+            date: bookingForm.date,
+            time: bookingForm.time,
+            duration: totalDuration,
+          },
+        }),
+      });
+
+      if (!paymentResponse.ok) {
+        const responseBody = await paymentResponse.json().catch(() => ({}));
+        setCheckoutError(
+          responseBody.error ||
+            "Payment could not be completed. Please try again."
+        );
+        setIsSquareLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      setCheckoutError("Payment could not be completed. Please try again.");
+      setIsSquareLoading(false);
+      return;
+    }
+
     const nextBooking: Booking = {
       id: Date.now(),
       name: bookingForm.name,
@@ -278,6 +461,8 @@ export default function Curate() {
     setBookingMessage(
       `Booked for ${formatTime(nextBooking.time)} on ${nextBooking.date}.`
     );
+    setIsSquareLoading(false);
+    setIsCheckoutOpen(false);
   };
 
   return (
@@ -367,7 +552,7 @@ export default function Curate() {
             Angeles, CA
           </p>
           <p>
-            <span className="text-white">Hours:</span> Mon–Sat 9AM–7PM
+            <span className="text-white">Hours:</span> Daily 10AM-7PM
           </p>
           <p>
             <span className="text-white">Phone:</span> (323) 555-0198
@@ -637,6 +822,86 @@ export default function Curate() {
         </div>
       </section>
 
+      {isCheckoutOpen && (
+        <div
+          className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/70 px-5 text-black rounded-full"
+          style={{
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+          }}
+        >
+          <form
+            onSubmit={handleCheckoutSubmit}
+            className="grid max-h-[90vh] w-full max-w-2xl gap-6 overflow-y-auto bg-white p-6 shadow-2xl md:p-8"
+          >
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.24em] text-black/45">
+                  Checkout
+                </p>
+                <h3 className="mt-2 text-3xl font-black uppercase">
+                  Secure your chair.
+                </h3>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsCheckoutOpen(false)}
+                className="border border-black/20 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-black/60 hover:bg-black hover:text-white"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="border border-black/10 bg-black/[0.03] p-4 text-sm text-black/70">
+              <div className="flex justify-between gap-4">
+                <span>{selectedServices.map((service) => service.name).join(", ")}</span>
+                <span className="font-bold text-black">${totalPrice}</span>
+              </div>
+              <div className="mt-2 flex justify-between gap-4">
+                <span>
+                  {bookingForm.barber} · {bookingForm.date} ·{" "}
+                  {bookingForm.time ? formatTime(bookingForm.time) : ""}
+                </span>
+                <span className="font-bold text-black">{totalDuration} min</span>
+              </div>
+            </div>
+
+            <div className="grid gap-3">
+              <div
+                id="square-card-container"
+                className="min-h-14 border border-black/20 px-4 py-4"
+              />
+
+              {isSquareLoading && (
+                <p className="text-sm text-black/50">Loading secure checkout...</p>
+              )}
+
+              {checkoutError && (
+                <p className="border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {checkoutError}
+                </p>
+              )}
+            </div>
+
+            <p className="text-xs leading-5 text-black/50">
+              Card details are entered in Square's secure payment field and are
+              never stored by this site.
+            </p>
+
+            <button
+              type="submit"
+              disabled={isSquareLoading}
+              className="bg-black px-6 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSquareLoading
+                ? "Processing..."
+                : `Pay $${totalPrice} & Confirm Booking`}
+            </button>
+          </form>
+        </div>
+      )}
+
       {/* TEAM */}
       <section id="team" className="px-6 py-24">
         <div className="mx-auto max-w-7xl">
@@ -733,7 +998,7 @@ export default function Curate() {
             <p className="mt-3 text-white/50">
               124 Melrose Ave, Los Angeles, CA
               <br />
-              Mon–Sat 9AM–7PM
+              Daily 10AM-7PM
               <br />
               (323) 555-0198
             </p>
