@@ -2,17 +2,25 @@ import { useEffect, useState } from "react";
 import KarenBikeFittingServices from "./KarenBikeFitting/KarenBikeFittingServices";
 import LocalBusinessDemoGenerator from "./WebsiteGenerator/LocalBusinessDemoGenerator";
 import CURATE from "./CURATE/CURATE";
+import LuxuryPetBoarding from "./LuxuryPetBoarding/LuxuryPetBoarding";
 import LilyDupuis from "./LilyDupuis/LilyDupuis";
 import UserManagment from "./UserManagment/userManagment";
 import ApplyAI from "./ApplyAI/ApplyAI";
+import BacariDinnerStudyGuide from "./BacariDinner/BacariDinnerStudyGuide";
+import BacariShiftTrader from "./BacariShiftTrader/BacariShiftTrader";
+import CreatureQuest from "./CreatureQuest/CreatureQuest";
 
 type Page =
   | "home"
   | "karen"
   | "lily"
   | "curate"
+  | "petBoarding"
   | "demoGenerator"
   | "applyAI"
+  | "bacariDinner"
+  | "bacariShiftTrader"
+  | "creatureQuest"
   | "userManagement"
   | "resume";
 
@@ -21,8 +29,12 @@ const pageSlugs: Record<Page, string> = {
   karen: "advantagebikefitting",
   lily: "lilydupuis",
   curate: "curate",
+  petBoarding: "petboarding",
   demoGenerator: "demogenerator",
   applyAI: "applyai",
+  bacariDinner: "bacari-dinner",
+  bacariShiftTrader: "bacari-shift-trader",
+  creatureQuest: "creature-quest",
   userManagement: "usermanagement",
   resume: "resume",
 };
@@ -34,10 +46,25 @@ const slugPages: Record<string, Page> = {
   lilydupuis: "lily",
   lily: "lily",
   curate: "curate",
+  petboarding: "petBoarding",
+  "pet-boarding": "petBoarding",
+  maisonpaw: "petBoarding",
+  "maison-paw": "petBoarding",
   demogenerator: "demoGenerator",
   "demo-generator": "demoGenerator",
   applyai: "applyAI",
   "apply-ai": "applyAI",
+  bacari: "bacariDinner",
+  bacaridinner: "bacariDinner",
+  "bacari-dinner": "bacariDinner",
+  "bacari-study-guide": "bacariDinner",
+  bacarishifttrader: "bacariShiftTrader",
+  "bacari-shift-trader": "bacariShiftTrader",
+  "shift-trader": "bacariShiftTrader",
+  creaturequest: "creatureQuest",
+  "creature-quest": "creatureQuest",
+  critterquest: "creatureQuest",
+  "critter-quest": "creatureQuest",
   usermanagement: "userManagement",
   "user-management": "userManagement",
   resume: "resume",
@@ -186,6 +213,13 @@ function App() {
           </button>
 
           <button
+            onClick={() => setPage("petBoarding")}
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
+          >
+            Pet Boarding
+          </button>
+
+          <button
             onClick={() => setPage("demoGenerator")}
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
           >
@@ -197,6 +231,27 @@ function App() {
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
           >
             ApplyAI
+          </button>
+
+          <button
+            onClick={() => setPage("bacariDinner")}
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
+          >
+            Bacari Dinner
+          </button>
+
+          <button
+            onClick={() => setPage("bacariShiftTrader")}
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
+          >
+            Bacari Shift Trader
+          </button>
+
+          <button
+            onClick={() => setPage("creatureQuest")}
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
+          >
+            Creature Quest
           </button>
 
           <button
@@ -223,7 +278,7 @@ function App() {
             A simple hub for testing different website builds and demo tools.
           </p>
 
-          <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+          <div className="mt-10 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
             <button
               onClick={() => setPage("karen")}
               className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
@@ -246,6 +301,13 @@ function App() {
             </button>
 
             <button
+              onClick={() => setPage("petBoarding")}
+              className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
+            >
+              View Luxury Pet Boarding
+            </button>
+
+            <button
               onClick={() => setPage("demoGenerator")}
               className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
             >
@@ -257,6 +319,27 @@ function App() {
               className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
             >
               Open ApplyAI
+            </button>
+
+            <button
+              onClick={() => setPage("bacariDinner")}
+              className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
+            >
+              Bacari Dinner
+            </button>
+
+            <button
+              onClick={() => setPage("bacariShiftTrader")}
+              className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
+            >
+              Bacari Shift Trader
+            </button>
+
+            <button
+              onClick={() => setPage("creatureQuest")}
+              className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
+            >
+              Play Creature Quest
             </button>
 
             <button
@@ -272,8 +355,12 @@ function App() {
       {page === "karen" && <KarenBikeFittingServices />}
       {page === "lily" && <LilyDupuis />}
       {page === "curate" && <CURATE />}
+      {page === "petBoarding" && <LuxuryPetBoarding />}
       {page === "demoGenerator" && <LocalBusinessDemoGenerator />}
       {page === "applyAI" && <ApplyAI />}
+      {page === "bacariDinner" && <BacariDinnerStudyGuide />}
+      {page === "bacariShiftTrader" && <BacariShiftTrader />}
+      {page === "creatureQuest" && <CreatureQuest />}
       {page === "userManagement" && <UserManagment />}
       {page === "resume" && (
         <main className="h-screen bg-neutral-100">

@@ -1,0 +1,346 @@
+.cq-page {
+  min-height: 100vh;
+  background: #080f1c;
+  color: #eef6ff;
+  padding: 104px 24px 40px;
+}
+
+.cq-shell {
+  width: min(100%, 1480px);
+  margin: 0 auto;
+}
+
+.cq-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid rgba(147, 197, 253, 0.18);
+  padding-bottom: 22px;
+}
+
+.cq-kicker,
+.cq-panel-label {
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cq-header h1 {
+  max-width: 760px;
+  margin-top: 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5vw, 76px);
+  line-height: 0.98;
+}
+
+.cq-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+.cq-stats div {
+  min-height: 74px;
+  border: 1px solid rgba(147, 197, 253, 0.18);
+  background: #111b2e;
+  color: #c6d8ef;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cq-stats span {
+  display: block;
+  color: #f8fbff;
+  font-size: 26px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.cq-game {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.cq-map-panel,
+.cq-side-panel,
+.cq-log,
+.cq-team {
+  border: 1px solid rgba(147, 197, 253, 0.16);
+  background: #101827;
+}
+
+.cq-map-panel {
+  padding: 18px;
+}
+
+.cq-map {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(42px, 1fr));
+  gap: 7px;
+  aspect-ratio: 10 / 7;
+}
+
+.cq-tile {
+  position: relative;
+  min-width: 0;
+  border: 1px solid rgba(147, 197, 253, 0.12);
+  overflow: hidden;
+}
+
+.cq-tile-grass {
+  background:
+    linear-gradient(135deg, rgba(52, 211, 153, 0.22), transparent 46%),
+    #113325;
+}
+
+.cq-tile-path {
+  background:
+    linear-gradient(135deg, rgba(96, 165, 250, 0.18), transparent 50%),
+    #1a2740;
+}
+
+.cq-tile-water {
+  background:
+    radial-gradient(circle at 30% 35%, rgba(153, 246, 228, 0.5), transparent 28%),
+    #0d3b66;
+}
+
+.cq-tile-stone {
+  background:
+    linear-gradient(135deg, rgba(226, 232, 240, 0.18), transparent 42%),
+    #273346;
+}
+
+.cq-tile-grass::after {
+  content: "";
+  position: absolute;
+  inset: auto 10% 12% 10%;
+  height: 26%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(74, 222, 128, 0.48) 0 3px,
+    transparent 3px 8px
+  );
+}
+
+.cq-player {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 38%;
+  aspect-ratio: 1;
+  border: 3px solid #f8fbff;
+  background: #3b82f6;
+  box-shadow: 0 0 28px rgba(96, 165, 250, 0.72);
+  transform: translate(-50%, -50%);
+}
+
+.cq-player::before {
+  content: "";
+  position: absolute;
+  inset: 20%;
+  background: #f8fbff;
+}
+
+.cq-controls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.cq-controls button,
+.cq-actions button {
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  background: #111b2e;
+  color: #eef6ff;
+  padding: 13px 14px;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cq-controls button:hover,
+.cq-actions button:hover {
+  background: #2563eb;
+}
+
+.cq-side-panel {
+  display: grid;
+  align-self: start;
+  gap: 14px;
+  border: 0;
+  background: transparent;
+}
+
+.cq-log,
+.cq-team {
+  padding: 18px;
+}
+
+.cq-log p:last-child,
+.cq-empty-team {
+  margin-top: 10px;
+  color: #c6d8ef;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.cq-team-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cq-team-card {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(147, 197, 253, 0.16);
+  background: #132033;
+  padding: 10px;
+}
+
+.cq-team-card strong,
+.cq-team-card span {
+  display: block;
+}
+
+.cq-team-card span {
+  margin-top: 3px;
+  color: #9fb5d1;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cq-battle {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 15, 28, 0.82);
+  padding: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.cq-battle-card {
+  display: grid;
+  grid-template-columns: minmax(240px, 420px) minmax(280px, 460px);
+  width: min(100%, 900px);
+  border: 1px solid rgba(147, 197, 253, 0.24);
+  background: #101827;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+}
+
+.cq-battle-stage {
+  display: grid;
+  min-height: 360px;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(96, 165, 250, 0.28), transparent 34%),
+    #0b1525;
+}
+
+.cq-battle-info {
+  padding: 28px;
+}
+
+.cq-battle-info h2 {
+  margin-top: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 48px;
+  line-height: 1;
+}
+
+.cq-battle-info p {
+  margin-top: 12px;
+  color: #c6d8ef;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.cq-hp {
+  height: 16px;
+  margin-top: 24px;
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  background: #080f1c;
+}
+
+.cq-hp span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.cq-hp-text {
+  font-size: 13px;
+}
+
+.cq-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.cq-creature {
+  width: min(72%, 280px);
+  filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.32));
+}
+
+.cq-creature-small {
+  width: 56px;
+}
+
+@media (max-width: 1080px) {
+  .cq-header,
+  .cq-game {
+    grid-template-columns: 1fr;
+  }
+
+  .cq-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cq-game {
+    display: grid;
+  }
+}
+
+@media (max-width: 820px) {
+  .cq-page {
+    padding: 92px 16px 32px;
+  }
+
+  .cq-stats,
+  .cq-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .cq-map {
+    grid-template-columns: repeat(10, minmax(28px, 1fr));
+  }
+
+  .cq-controls {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cq-battle-card {
+    grid-template-columns: 1fr;
+  }
+
+  .cq-battle-stage {
+    min-height: 230px;
+  }
+}

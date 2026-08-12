@@ -1,0 +1,312 @@
+.shift-trader-page {
+  min-height: 100vh;
+  background: #080f1c;
+  color: #eef6ff;
+  padding: 104px 24px 40px;
+}
+
+.shift-trader-shell {
+  width: min(100%, 1480px);
+  margin: 0 auto;
+}
+
+.shift-trader-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid rgba(147, 197, 253, 0.18);
+  padding-bottom: 22px;
+}
+
+.shift-trader-kicker,
+.shift-trader-entry-kicker,
+.shift-trader-day-name {
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.shift-trader-title {
+  margin-top: 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5vw, 78px);
+  line-height: 0.95;
+}
+
+.shift-trader-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.shift-trader-stat {
+  min-height: 74px;
+  border: 1px solid rgba(147, 197, 253, 0.18);
+  background: #111b2e;
+  color: #cfe4ff;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.shift-trader-stat span {
+  display: block;
+  color: #f8fbff;
+  font-size: 30px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.shift-trader-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.shift-trader-calendar-wrap {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 56px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.shift-trader-arrow {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  border: 1px solid rgba(147, 197, 253, 0.2);
+  background: #111b2e;
+  color: #eef6ff;
+  font-size: 32px;
+  font-weight: 900;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.shift-trader-arrow:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.shift-trader-arrow:disabled {
+  cursor: not-allowed;
+  background: #162033;
+  color: #64748b;
+}
+
+.shift-trader-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+
+.shift-trader-day {
+  display: flex;
+  min-height: 260px;
+  flex-direction: column;
+  border: 1px solid rgba(147, 197, 253, 0.16);
+  background: #101827;
+  color: #eef6ff;
+  padding: 16px;
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.shift-trader-day:hover {
+  border-color: rgba(96, 165, 250, 0.75);
+  background: #132033;
+}
+
+.shift-trader-day-selected {
+  border-color: #60a5fa;
+  background: #132033;
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.24);
+}
+
+.shift-trader-day-past {
+  cursor: pointer;
+  border-color: rgba(148, 163, 184, 0.14);
+  background: #0d1422;
+  color: #77839a;
+}
+
+.shift-trader-day-date {
+  margin-top: 7px;
+  color: inherit;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.shift-trader-day-count {
+  margin-top: 9px;
+  color: #9fb5d1;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.shift-trader-name-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 28px;
+}
+
+.shift-trader-name-chip {
+  border: 1px solid rgba(147, 197, 253, 0.18);
+  background: #1e3a5f;
+  color: #f8fbff;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.shift-trader-empty {
+  margin-top: auto;
+  border: 1px dashed rgba(147, 197, 253, 0.28);
+  color: #9fb5d1;
+  padding: 13px 12px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.shift-trader-entry {
+  align-self: start;
+  border: 1px solid rgba(147, 197, 253, 0.18);
+  background: #111b2e;
+  color: #eef6ff;
+  padding: 20px;
+}
+
+.shift-trader-entry-kicker {
+  color: #93c5fd;
+}
+
+.shift-trader-entry h2 {
+  margin-top: 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.shift-trader-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.shift-trader-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.shift-trader-form input {
+  width: 100%;
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  background: #080f1c;
+  color: #eef6ff;
+  padding: 14px 16px;
+  outline: none;
+}
+
+.shift-trader-form input:focus {
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.28);
+}
+
+.shift-trader-form button {
+  background: #3b82f6;
+  color: #f8fbff;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background-color 160ms ease;
+}
+
+.shift-trader-form button:hover:not(:disabled) {
+  background: #60a5fa;
+}
+
+.shift-trader-form button:disabled {
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.shift-trader-error {
+  margin-top: 16px;
+  border: 1px solid rgba(252, 165, 165, 0.4);
+  background: rgba(239, 68, 68, 0.18);
+  color: #fee2e2;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.shift-trader-note {
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  padding-top: 18px;
+}
+
+.shift-trader-note p {
+  color: #c6d8ef;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+@media (max-width: 1180px) {
+  .shift-trader-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .shift-trader-entry {
+    width: 100%;
+  }
+}
+
+@media (max-width: 920px) {
+  .shift-trader-page {
+    padding-inline: 16px;
+  }
+
+  .shift-trader-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .shift-trader-calendar-wrap {
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+  }
+
+  .shift-trader-calendar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .shift-trader-page {
+    padding-top: 90px;
+  }
+
+  .shift-trader-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .shift-trader-calendar {
+    grid-template-columns: 1fr;
+  }
+
+  .shift-trader-arrow {
+    min-height: 100%;
+  }
+}
