@@ -9,6 +9,7 @@ import ApplyAI from "./ApplyAI/ApplyAI";
 import BacariDinnerStudyGuide from "./BacariDinner/BacariDinnerStudyGuide";
 import BacariShiftTrader from "./BacariShiftTrader/BacariShiftTrader";
 import CreatureQuest from "./CreatureQuest/CreatureQuest";
+import SignalAI from "./SignalAI/SignalAI";
 
 type Page =
   | "home"
@@ -22,6 +23,7 @@ type Page =
   | "bacariShiftTrader"
   | "creatureQuest"
   | "userManagement"
+  | "signalAI"
   | "resume";
 
 const pageSlugs: Record<Page, string> = {
@@ -36,6 +38,7 @@ const pageSlugs: Record<Page, string> = {
   bacariShiftTrader: "bacari-shift-trader",
   creatureQuest: "creature-quest",
   userManagement: "usermanagement",
+  signalAI: "signal-ai",
   resume: "resume",
 };
 
@@ -67,6 +70,9 @@ const slugPages: Record<string, Page> = {
   "critter-quest": "creatureQuest",
   usermanagement: "userManagement",
   "user-management": "userManagement",
+  signalai: "signalAI",
+  "signal-ai": "signalAI",
+  "stock-screener": "signalAI",
   resume: "resume",
 };
 
@@ -260,6 +266,10 @@ function App() {
           >
             User Management
           </button>
+
+          <button onClick={() => setPage("signalAI")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">
+            Signal AI
+          </button>
         </div>
       </nav>
       )}
@@ -278,7 +288,7 @@ function App() {
             A simple hub for testing different website builds and demo tools.
           </p>
 
-          <div className="mt-10 flex flex-col flex-wrap justify-center gap-4 sm:flex-row">
+          <div className="mx-auto mt-10 grid w-full grid-cols-1 gap-4 sm:w-3/5 sm:grid-cols-2 xl:grid-cols-3">
             <button
               onClick={() => setPage("karen")}
               className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500"
@@ -348,6 +358,10 @@ function App() {
             >
               Open User Management
             </button>
+
+            <button onClick={() => setPage("signalAI")} className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500">
+              Open Signal AI Stock Screener
+            </button>
           </div>
         </section>
       )}
@@ -362,6 +376,7 @@ function App() {
       {page === "bacariShiftTrader" && <BacariShiftTrader />}
       {page === "creatureQuest" && <CreatureQuest />}
       {page === "userManagement" && <UserManagment />}
+      {page === "signalAI" && <SignalAI />}
       {page === "resume" && (
         <main className="h-screen bg-neutral-100">
           <object
