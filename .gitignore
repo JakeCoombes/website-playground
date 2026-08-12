@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Signal AI local research data and serialized models
+ml/data/
+ml/artifacts/*.joblib
+ml/artifacts/*-report.json
+ml/__pycache__/
+.venv/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -15,6 +15,16 @@ const stocks: Stock[] = [
 
 type MarketPoint = { datetime: string; open: number; high: number; low: number; close: number; volume: number };
 type MarketData = { symbol: string; range: string; currency: string; exchange: string; points: MarketPoint[]; summary: { latest: number; change: number; changePercent: number; periodChangePercent: number; high: number; low: number; volume: number; asOf: string } };
+type TwelveDataResponse = { meta?: { symbol?: string; currency?: string; exchange?: string }; values?: Array<Record<string, string>>; status?: string; message?: string };
+type Prediction = { symbol:string; generatedAt:string; horizonDays:number; boomProbability:number; bustProbability:number; expectedExcessReturn:number; confidence:number; modelVersion:string; factors:{positive:string[];negative:string[]}; scores:{trend:number;momentum:number;relativeStrength:number;volatilityRisk:number;volume:number} };
+
+function normalizeMarketData(body: MarketData | TwelveDataResponse, symbol: string, range: string): MarketData {
+  if ("points" in body) return body;
+  if (!Array.isArray(body.values) || body.values.length === 0) throw new Error(body.message || "Market data provider returned no data");
+  const points = body.values.map(point => ({ datetime: point.datetime, open: Number(point.open), high: Number(point.high), low: Number(point.low), close: Number(point.close), volume: Number(point.volume || 0) }));
+  const first = points[0]; const latest = points[points.length - 1]; const previous = points[Math.max(0, points.length - 2)];
+  return { symbol, range, currency: body.meta?.currency || "USD", exchange: body.meta?.exchange || "", points, summary: { latest: latest.close, change: latest.close - previous.close, changePercent: previous.close ? ((latest.close - previous.close) / previous.close) * 100 : 0, periodChangePercent: first.close ? ((latest.close - first.close) / first.close) * 100 : 0, high: Math.max(...points.map(point => point.high)), low: Math.min(...points.map(point => point.low)), volume: latest.volume, asOf: latest.datetime } };
+}
 
 function Icon({ name }: { name: "spark" | "search" | "bell" | "grid" | "chart" | "screen" | "book" | "settings" | "arrow" }) {
   const paths = {
@@ -26,21 +36,33 @@ function Icon({ name }: { name: "spark" | "search" | "bell" | "grid" | "chart" |
   return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[name]}</svg>;
 }
 
-function PriceChart({ range, stock, marketData, loading, error }: { range: string; stock: Stock; marketData: MarketData | null; loading: boolean; error: string }) {
+function PriceChart({ range, stock, marketData, loading, error, onInspect }: { range: string; stock: Stock; marketData: MarketData | null; loading: boolean; error: string; onInspect: (point: MarketPoint | null) => void }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   if (loading) return <div className="market-chart-state" role="status"><i/><span>Loading verified market data…</span></div>;
   if (error || !marketData?.points.length) return <div className="market-chart-state error" role="alert"><strong>Live chart unavailable</strong><span>{error || "No market data was returned."}</span></div>;
   const series = marketData.points.map(point => point.close);
   const minimum = Math.min(...series);
   const maximum = Math.max(...series);
   const spread = Math.max(maximum - minimum, 1);
-  const points = series.map((value, index) => `${(index / (series.length - 1)) * 590},${215 - ((value - minimum) / spread) * 175}`).join(" ");
-  const area = `0,220 ${points} 590,220`;
-  return <div className="signal-chart" role="img" aria-label={`${stock.symbol} ${range} illustrative price trend chart`}>
-    <svg viewBox="0 0 700 240" preserveAspectRatio="none">
+  const chartX = (index: number) => (index / Math.max(series.length - 1, 1)) * 700;
+  const chartY = (value: number) => 315 - ((value - minimum) / spread) * 275;
+  const points = series.map((value, index) => `${chartX(index)},${chartY(value)}`).join(" ");
+  const area = `0,320 ${points} 700,320`;
+  const activePoint = activeIndex === null ? null : marketData.points[activeIndex];
+  const activeX = activeIndex === null ? 0 : chartX(activeIndex);
+  const activeY = activePoint ? chartY(activePoint.close) : 0;
+  return <div className="signal-chart" role="application" tabIndex={0} aria-label={`${stock.symbol} ${range} interactive price chart. Use pointer or arrow keys to inspect data points.`}
+    onPointerMove={event => { const bounds=event.currentTarget.getBoundingClientRect(); const ratio=Math.min(1,Math.max(0,(event.clientX-bounds.left)/bounds.width)); const index=Math.round(ratio*(marketData.points.length-1));setActiveIndex(index);onInspect(marketData.points[index]) }}
+    onPointerLeave={()=>{setActiveIndex(null);onInspect(null)}} onFocus={()=>{const index=activeIndex??marketData.points.length-1;setActiveIndex(index);onInspect(marketData.points[index])}} onBlur={()=>{setActiveIndex(null);onInspect(null)}}
+    onKeyDown={event=>{if(event.key!=="ArrowLeft"&&event.key!=="ArrowRight")return;event.preventDefault();const direction=event.key==="ArrowRight"?1:-1;const index=Math.min(marketData.points.length-1,Math.max(0,(activeIndex??marketData.points.length-1)+direction));setActiveIndex(index);onInspect(marketData.points[index])}}>
+    <svg viewBox="0 0 700 340" preserveAspectRatio="none" aria-hidden="true">
       <defs><linearGradient id="signalFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#60a5fa" stopOpacity=".3"/><stop offset="1" stopColor="#60a5fa" stopOpacity="0"/></linearGradient></defs>
-      {[30,78,126,174,220].map(y => <line key={y} x1="0" x2="700" y1={y} y2={y} className="chart-grid" />)}
+      {[40,110,180,250,320].map(y => <line key={y} x1="0" x2="700" y1={y} y2={y} className="chart-grid" />)}
       <polygon points={area} fill="url(#signalFill)"/><polyline points={points} className="chart-line"/>
+      {activePoint && <line x1={activeX} x2={activeX} y1="30" y2="320" className="chart-crosshair"/>}
     </svg>
+    {activePoint && <div className="chart-marker-layer" aria-hidden="true"><span className="chart-hover-dot" style={{left:`${activeX/7}%`,top:`${activeY/3.4}%`}}/></div>}
+    {activePoint && <div className={`chart-inspect-date ${activeX>540?"align-left":""}`} style={{left:`${activeX/7}%`}}>{new Date(activePoint.datetime.replace(" ","T")).toLocaleString(undefined,range==="1D"?{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}:{month:"short",day:"numeric",year:"numeric"})}</div>}
     <div className="chart-axis">{[0,.25,.5,.75,1].map(position => { const point = marketData.points[Math.min(marketData.points.length - 1, Math.round((marketData.points.length - 1) * position))]; return <span key={position}>{new Date(point.datetime.replace(" ","T")).toLocaleDateString(undefined, range === "1D" ? { hour: "numeric", minute: "2-digit" } : { month: "short", day: range === "5Y" ? undefined : "numeric", year: range === "5Y" ? "2-digit" : undefined })}</span> })}</div>
     <span className="forecast-tag">{marketData.summary.periodChangePercent >= 0 ? "+" : ""}{marketData.summary.periodChangePercent.toFixed(1)}% {range}</span>
   </div>;
@@ -48,16 +70,38 @@ function PriceChart({ range, stock, marketData, loading, error }: { range: strin
 
 export default function SignalAI() {
   const [query, setQuery] = useState(""); const [sector, setSector] = useState("All sectors"); const [sort, setSort] = useState<keyof Stock>("score"); const [range, setRange] = useState("3M"); const [selected, setSelected] = useState("NVDA"); const [minScore, setMinScore] = useState(0); const [watchlist, setWatchlist] = useState(["MSFT", "LLY"]); const [showAnalysis, setShowAnalysis] = useState(false);
-  const [marketData, setMarketData] = useState<MarketData | null>(null); const [marketLoading, setMarketLoading] = useState(true); const [marketError, setMarketError] = useState("");
+  const [marketData, setMarketData] = useState<MarketData | null>(null); const [marketLoading, setMarketLoading] = useState(true); const [marketError, setMarketError] = useState(""); const [prediction,setPrediction]=useState<Prediction|null>(null); const [predictionStatus,setPredictionStatus]=useState("Checking validated model…");
   const selectedStock = stocks.find(s => s.symbol === selected) ?? stocks[0];
-  const livePrice = marketData?.summary.latest;
-  const liveChange = marketData?.summary.change;
-  const liveChangePercent = marketData?.summary.changePercent;
+  const [inspectedPoint,setInspectedPoint]=useState<MarketPoint|null>(null);
+  const livePrice = inspectedPoint?.close ?? marketData?.summary.latest;
+  const rangeStartPrice = marketData?.points[0]?.close;
+  const liveChange = inspectedPoint && rangeStartPrice != null ? inspectedPoint.close-rangeStartPrice : marketData?.summary.change;
+  const liveChangePercent = inspectedPoint && rangeStartPrice ? ((inspectedPoint.close-rangeStartPrice)/rangeStartPrice)*100 : marketData?.summary.changePercent;
   const technicals = useMemo(() => { if (!marketData?.points.length) return null; const closes = marketData.points.map(point => point.close); const returns = closes.slice(1).map((value,index)=>(value-closes[index])/closes[index]); const average = returns.reduce((sum,value)=>sum+value,0)/Math.max(returns.length,1); const variance = returns.reduce((sum,value)=>sum+(value-average)**2,0)/Math.max(returns.length,1); const window = closes.slice(-Math.min(20,closes.length)); return { average: window.reduce((sum,value)=>sum+value,0)/window.length, volatility: Math.sqrt(variance)*Math.sqrt(252)*100 } }, [marketData]);
   const filtered = useMemo(() => stocks.filter(s => (sector === "All sectors" || s.sector === sector) && s.score >= minScore && `${s.symbol} ${s.name}`.toLowerCase().includes(query.toLowerCase())).sort((a,b) => typeof a[sort] === "number" ? Number(b[sort])-Number(a[sort]) : String(a[sort]).localeCompare(String(b[sort]))), [query, sector, sort, minScore]);
   const toggleWatchlist = () => setWatchlist(current => current.includes(selected) ? current.filter(symbol => symbol !== selected) : [...current, selected]);
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  useEffect(() => { const controller = new AbortController(); setMarketLoading(true); setMarketError(""); fetch(`/api/market-data?symbol=${encodeURIComponent(selected)}&range=${encodeURIComponent(range)}`, { signal: controller.signal }).then(async response => { const body = await response.json(); if (!response.ok) throw new Error(body.error || "Market data request failed"); return body as MarketData }).then(data => setMarketData(data)).catch(error => { if (error.name !== "AbortError") { setMarketData(null); setMarketError(error.message) } }).finally(() => { if (!controller.signal.aborted) setMarketLoading(false) }); return () => controller.abort() }, [selected, range]);
+  useEffect(() => {
+    const controller = new AbortController();
+    const cacheKey = `signal-market:${selected}:${range}`;
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      const entry = JSON.parse(cached) as { savedAt: number; data: MarketData };
+      if (Date.now() - entry.savedAt < 15 * 60_000) {
+        setMarketData(entry.data); setMarketError(""); setMarketLoading(false); return;
+      }
+    }
+    setMarketLoading(true); setMarketError("");
+    const timer = window.setTimeout(() => {
+      fetch(`/api/market-data?symbol=${encodeURIComponent(selected)}&range=${encodeURIComponent(range)}`, { signal: controller.signal })
+        .then(async response => { const body = await response.json(); if (!response.ok || body.status === "error") throw new Error(body.error || body.message || "Market data request failed"); return normalizeMarketData(body, selected, range) })
+        .then(data => { setMarketData(data); sessionStorage.setItem(cacheKey, JSON.stringify({ savedAt: Date.now(), data })) })
+        .catch(error => { if (error.name !== "AbortError") { setMarketData(null); setMarketError(error.message) } })
+        .finally(() => { if (!controller.signal.aborted) setMarketLoading(false) });
+    }, 400);
+    return () => { window.clearTimeout(timer); controller.abort() };
+  }, [selected, range]);
+  useEffect(()=>{const controller=new AbortController();setPrediction(null);setPredictionStatus("Checking validated model…");fetch(`/api/predictions?symbol=${encodeURIComponent(selected)}`,{signal:controller.signal}).then(async response=>{const body=await response.json();if(!response.ok)throw new Error(body.error||"Prediction unavailable");return body as Prediction}).then(value=>{setPrediction(value);setPredictionStatus("")}).catch(error=>{if(error.name!=="AbortError")setPredictionStatus(error.message)});return()=>controller.abort()},[selected]);
   return <div className="signal-app">
     <aside className="signal-sidebar">
       <div className="signal-logo"><span><Icon name="spark"/></span><strong>Signal<span>AI</span></strong></div>
@@ -74,10 +118,10 @@ export default function SignalAI() {
         <div className="signal-primary">
           <article className="signal-card stock-focus">
             <div className="stock-heading"><div className="ticker-icon">{selectedStock.symbol[0]}</div><div><span>NASDAQ · {selectedStock.symbol}</span><h2>{selectedStock.name}</h2></div><button onClick={toggleWatchlist}>{watchlist.includes(selected) ? "✓ Watching" : "+ Watchlist"}</button></div>
-            <div className="stock-price"><strong>{livePrice != null ? `$${livePrice.toFixed(2)}` : "—"}</strong><span className={(liveChangePercent ?? 0) < 0 ? "negative" : ""}>{liveChange != null ? `${liveChange >= 0 ? "+" : ""}$${liveChange.toFixed(2)} (${liveChangePercent?.toFixed(2)}%) latest session` : "Waiting for market data"}</span></div>
+            <div className="stock-price"><strong>{livePrice != null ? `$${livePrice.toFixed(2)}` : "—"}</strong><span className={(liveChangePercent ?? 0) < 0 ? "negative" : ""}>{liveChange != null ? `${liveChange >= 0 ? "+" : ""}$${Math.abs(liveChange).toFixed(2)} (${Math.abs(liveChangePercent ?? 0).toFixed(2)}%) ${inspectedPoint ? range : "latest session"}` : "Waiting for market data"}</span></div>
             <div className="fundamental-strip"><div><span>{range} high</span><b>{marketData ? `$${marketData.summary.high.toFixed(2)}` : "—"}</b></div><div><span>{range} low</span><b>{marketData ? `$${marketData.summary.low.toFixed(2)}` : "—"}</b></div><div><span>20-period average</span><b>{technicals ? `$${technicals.average.toFixed(2)}` : "—"}</b></div><div><span>Annualized volatility</span><b>{technicals ? `${technicals.volatility.toFixed(1)}%` : "—"}</b></div></div>
             <div className="range-tabs" aria-label="Chart time range">{["1D","1W","1M","3M","YTD","1Y","5Y"].map(r=><button key={r} className={range===r?"active":""} onClick={()=>setRange(r)}>{r}</button>)}</div>
-            <PriceChart range={range} stock={selectedStock} marketData={marketData} loading={marketLoading} error={marketError}/>
+            <PriceChart range={range} stock={selectedStock} marketData={marketData} loading={marketLoading} error={marketError} onInspect={setInspectedPoint}/>
             <div className="chart-legend"><span><i className="solid"/> Twelve Data close price</span><span>{marketData ? `${marketData.exchange} · ${marketData.currency}` : "Provider not connected"}</span><span>{marketData ? `As of ${marketData.summary.asOf} ET` : "Add TWELVE_DATA_API_KEY"}</span></div>
           </article>
           <article className="signal-card screener-card" id="signal-screener">
@@ -88,7 +132,7 @@ export default function SignalAI() {
           <section className="signal-lower-grid"><article className="signal-card catalysts"><div className="card-title"><div><p>CATALYST CALENDAR</p><h2>What could move {selectedStock.symbol}</h2></div></div><div className="catalyst"><time>Aug 27</time><i className="earnings"/><div><b>Quarterly earnings</b><span>EPS consensus $1.01 · High impact</span></div></div><div className="catalyst"><time>Sep 09</time><i/><div><b>Industry conference</b><span>Management presentation · Medium impact</span></div></div><div className="catalyst"><time>Oct 15</time><i/><div><b>Product cycle update</b><span>AI infrastructure roadmap</span></div></div></article><article className="signal-card news-card"><div className="card-title"><div><p>AI NEWS DIGEST</p><h2>Signal-driving headlines</h2></div></div><button><span>12m</span><div><b>Analysts lift estimates on demand</b><small>Sentiment: strongly positive</small></div><Icon name="arrow"/></button><button><span>1h</span><div><b>Institutional flows accelerate</b><small>Sentiment: positive</small></div><Icon name="arrow"/></button><button><span>3h</span><div><b>Options imply elevated volatility</b><small>Sentiment: neutral</small></div><Icon name="arrow"/></button></article></section>
         </div>
         <aside className="signal-insights">
-          <article className="signal-card ai-thesis"><div className="ai-label"><span><Icon name="spark"/></span> SIGNAL AI ANALYSIS</div><div className="score-ring"><strong>{selectedStock.score}</strong><span>{selectedStock.score>=88?"Strong":"Moderate"}<br/>{selectedStock.change>=0?"bullish":"caution"}</span></div><h2>{selectedStock.change>=0?"Momentum remains intact":"Volatility deserves attention"}</h2><p>{selectedStock.name} shows {selectedStock.growth > 30 ? "accelerating growth and sustained institutional interest" : "stable fundamentals with selective upside"}. Near-term valuation is {selectedStock.pe > 50 ? "elevated" : "within its historical range"}, while earnings revisions shape the next move.</p><div className="confidence"><span>AI confidence <b>{Math.min(92,selectedStock.score-7)}%</b></span><i><b style={{width:`${Math.min(92,selectedStock.score-7)}%`}}/></i></div><ul><li className="bull"><span>Revenue acceleration</span><b>{selectedStock.growth>30?"Positive":"Stable"}</b></li><li className="bull"><span>Price momentum</span><b>{selectedStock.change>1?"Strong":"Mixed"}</b></li><li className="neutral"><span>Valuation risk</span><b>{selectedStock.pe>50?"Elevated":"Balanced"}</b></li></ul><button className="analysis-button" onClick={()=>setShowAnalysis(!showAnalysis)}>{showAnalysis?"Hide detailed thesis":"View full analysis"} <Icon name="arrow"/></button>{showAnalysis&&<div className="expanded-thesis"><b>Model thesis</b><p>Signal AI combines earnings revisions, relative strength, valuation, news sentiment, and sector momentum. The current setup ranks {selectedStock.symbol} in the top {100-selectedStock.score}% of this demo universe.</p><div><span>12-month bull case</span><strong>${(selectedStock.price*1.24).toFixed(2)}</strong></div><div><span>Base case</span><strong>${(selectedStock.price*1.09).toFixed(2)}</strong></div><div><span>Bear case</span><strong>${(selectedStock.price*.81).toFixed(2)}</strong></div></div>}</article>
+          {prediction?<article className="signal-card prediction-card"><div className="ai-label"><span><Icon name="spark"/></span> VALIDATED MODEL ESTIMATE</div><p className="prediction-language">Model-estimated probabilities based on historical out-of-sample relationships—not certainty.</p><div className="prediction-metrics"><div title="Chance of beating SPY by at least 5 percentage points over 90 trading days"><span>Boom probability</span><strong>{(prediction.boomProbability*100).toFixed(0)}%</strong></div><div title="Chance of a 15% or greater drawdown during the next 90 trading days"><span>Bust risk</span><strong>{(prediction.bustProbability*100).toFixed(0)}%</strong></div><div title="Estimated stock return minus SPY return over 90 trading days"><span>Expected excess return</span><strong>{prediction.expectedExcessReturn>=0?"+":""}{(prediction.expectedExcessReturn*100).toFixed(1)}%</strong></div><div title="Agreement, calibration, available history, and data quality"><span>Confidence</span><strong>{(prediction.confidence*100).toFixed(0)}%</strong></div></div><div className="factor-scores">{Object.entries(prediction.scores).map(([name,value])=><div key={name}><span>{name.replace(/([A-Z])/g," $1")}</span><i><b style={{width:`${value}%`}}/></i><strong>{value.toFixed(0)}</strong></div>)}</div><button className="analysis-button" onClick={()=>setShowAnalysis(!showAnalysis)}>{showAnalysis?"Hide model factors":"Explain this estimate"} <Icon name="arrow"/></button>{showAnalysis&&<div className="expanded-thesis"><b>Top positive factors</b><p>{prediction.factors.positive.join(" · ")||"No strong positive attribution"}</p><b>Top negative factors</b><p>{prediction.factors.negative.join(" · ")||"No strong negative attribution"}</p><small>Model {prediction.modelVersion}</small></div>}</article>:<article className="signal-card prediction-unavailable"><div className="ai-label"><span><Icon name="spark"/></span> PREDICTION ENGINE</div><h2>Validation gate active</h2><p>{predictionStatus}</p><small>Predictions appear only after XGBoost beats the baseline on the untouched holdout and passes calibration checks.</small></article>}
           <article className="signal-card pulse"><div className="card-title"><div><p>MARKET PULSE</p><h2>Sector strength</h2></div></div>{[["Technology",86],["Healthcare",71],["Financials",64],["Consumer",52],["Energy",39]].map(([name,value])=><div className="pulse-row" key={name}><span>{name}</span><i><b style={{width:`${value}%`}}/></i><strong>{value}</strong></div>)}</article>
           <article className="signal-card mini-watchlist" id="signal-watchlist"><div className="card-title"><div><p>YOUR WATCHLIST</p><h2>{watchlist.length} tracked companies</h2></div></div>{stocks.filter(s=>watchlist.includes(s.symbol)).map(s=><button key={s.symbol} onClick={()=>setSelected(s.symbol)}><span><b>{s.symbol}</b><small>{s.name}</small></span><strong>${s.price.toFixed(2)}</strong><em className={s.change>=0?"positive":"negative"}>{s.change>=0?"+":""}{s.change}%</em></button>)}{watchlist.length===0&&<p className="watchlist-empty">Add a company to start tracking it.</p>}</article>
           <div className="disclaimer"><Icon name="spark"/><p><b>Research workspace</b><br/>Demo insights are illustrative, delayed, and not financial advice.</p></div>

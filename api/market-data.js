@@ -9,6 +9,30 @@ const RANGE_CONFIG = {
 };
 
 const SYMBOL_PATTERN = /^[A-Z][A-Z0-9.-]{0,9}$/;
+const MINUTE_LIMIT = Math.min(6, Math.max(1, Number(process.env.TWELVE_DATA_MINUTE_CREDIT_LIMIT) || 6));
+const DAILY_LIMIT = Math.min(700, Math.max(1, Number(process.env.TWELVE_DATA_DAILY_CREDIT_LIMIT) || 700));
+
+const budget = globalThis.__signalAiTwelveDataBudget || {
+  minute: [],
+  day: new Date().toISOString().slice(0, 10),
+  dailyCount: 0,
+};
+globalThis.__signalAiTwelveDataBudget = budget;
+
+function reserveCredit() {
+  const now = Date.now();
+  const today = new Date(now).toISOString().slice(0, 10);
+  if (budget.day !== today) {
+    budget.day = today;
+    budget.dailyCount = 0;
+  }
+  budget.minute = budget.minute.filter((timestamp) => now - timestamp < 60_000);
+  if (budget.minute.length >= MINUTE_LIMIT) return { ok: false, reason: "minute" };
+  if (budget.dailyCount >= DAILY_LIMIT) return { ok: false, reason: "day" };
+  budget.minute.push(now);
+  budget.dailyCount += 1;
+  return { ok: true };
+}
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -28,6 +52,9 @@ export default async function handler(req, res) {
   if (!apiKey) {
     return res.status(503).json({ error: "Market data is not configured" });
   }
+  if (process.env.TWELVE_DATA_LIVE_REQUESTS_ENABLED !== "true") {
+    return res.status(503).json({ error: "Live provider requests are disabled to protect the Twelve Data credit budget" });
+  }
 
   const params = new URLSearchParams({
     symbol,
@@ -35,8 +62,19 @@ export default async function handler(req, res) {
     outputsize: String(config.outputsize),
     order: "ASC",
     timezone: "America/New_York",
+    adjust: "splits",
     apikey: apiKey,
   });
+
+  const reservation = reserveCredit();
+  if (!reservation.ok) {
+    res.setHeader("Retry-After", reservation.reason === "minute" ? "60" : "3600");
+    return res.status(429).json({
+      error: reservation.reason === "minute"
+        ? "Market-data safety limit reached. Try again in one minute."
+        : "The app's daily market-data safety budget has been reached.",
+    });
+  }
 
   try {
     const response = await fetch(`https://api.twelvedata.com/time_series?${params}`, {
