@@ -4,6 +4,7 @@ const THRESHOLDS = {
 };
 const USER_AGENT =
   "Mozilla/5.0 (compatible; PersonalPriceMonitor/1.0; +https://vercel.com)";
+const MAX_DEAL_ALERTS_PER_RUN = 10;
 
 const PRODUCTS = [
   ["pishop-2gb", "PiShop.us", 2, "https://www.pishop.us/product/raspberry-pi-4-model-b-2gb/", true],
@@ -193,11 +194,36 @@ async function sendAlert(result) {
   return true;
 }
 
+async function sendWeeklyHeartbeat() {
+  const marker = "weekly-heartbeat";
+  if (await recentlyAlerted(marker)) return false;
+  const from = process.env.TWILIO_FROM_NUMBER;
+  const to = process.env.PRICE_MONITOR_SMS_TO;
+  if (!from || !to) throw new Error("Missing Twilio phone configuration");
+  const body = new URLSearchParams({
+    From: from,
+    To: to,
+    Body: "[PiMonitor:weekly-heartbeat] Pi Price Watch is active. No purchase alert—this is the weekly system test.",
+  });
+  const response = await twilioRequest("/Messages.json", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+  if (!response.ok) throw new Error(`Twilio HTTP ${response.status}: ${await response.text()}`);
+  return true;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
   const isStatusRequest = req.query?.view === "status";
   if (!isStatusRequest && (!process.env.CRON_SECRET || req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`)) {
     return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (req.query?.heartbeat === "weekly") {
+    const sent = await sendWeeklyHeartbeat();
+    return res.status(200).json({ ok: true, sent, checkedAt: new Date().toISOString() });
   }
 
   const results = await Promise.all(PRODUCTS.map(checkStore));
@@ -216,7 +242,7 @@ export default async function handler(req, res) {
   }
 
   const alerts = [];
-  for (const result of results.filter((item) => item.qualifies)) {
+  for (const result of results.filter((item) => item.qualifies).slice(0, MAX_DEAL_ALERTS_PER_RUN)) {
     alerts.push({ store: result.name, sent: await sendAlert(result) });
   }
 

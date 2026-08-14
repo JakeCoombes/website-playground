@@ -3,6 +3,10 @@
     {
       "path": "/api/price-monitor",
       "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/price-monitor?heartbeat=weekly",
+      "schedule": "0 17 * * 0"
     }
   ],
   "rewrites": [
