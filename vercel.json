@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/price-monitor",
+      "schedule": "0 16 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/).*)",

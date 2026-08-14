@@ -10,6 +10,8 @@ import BacariDinnerStudyGuide from "./BacariDinner/BacariDinnerStudyGuide";
 import BacariShiftTrader from "./BacariShiftTrader/BacariShiftTrader";
 import CreatureQuest from "./CreatureQuest/CreatureQuest";
 import SignalAI from "./SignalAI/SignalAI";
+import Coogle from "./Coogle/Coogle";
+import PiPriceWatch from "./PiPriceWatch/PiPriceWatch";
 
 type Page =
   | "home"
@@ -24,6 +26,8 @@ type Page =
   | "creatureQuest"
   | "userManagement"
   | "signalAI"
+  | "coogle"
+  | "piPriceWatch"
   | "resume";
 
 const pageSlugs: Record<Page, string> = {
@@ -39,6 +43,8 @@ const pageSlugs: Record<Page, string> = {
   creatureQuest: "creature-quest",
   userManagement: "usermanagement",
   signalAI: "signal-ai",
+  coogle: "coogle",
+  piPriceWatch: "pi-price-watch",
   resume: "resume",
 };
 
@@ -73,6 +79,9 @@ const slugPages: Record<string, Page> = {
   signalai: "signalAI",
   "signal-ai": "signalAI",
   "stock-screener": "signalAI",
+  coogle: "coogle",
+  "pi-price-watch": "piPriceWatch",
+  pipricewatch: "piPriceWatch",
   resume: "resume",
 };
 
@@ -270,6 +279,8 @@ function App() {
           <button onClick={() => setPage("signalAI")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">
             Signal AI
           </button>
+          <button onClick={() => setPage("coogle")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Coogle</button>
+          <button onClick={() => setPage("piPriceWatch")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Pi Price Watch</button>
         </div>
       </nav>
       )}
@@ -362,6 +373,8 @@ function App() {
             <button onClick={() => setPage("signalAI")} className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500">
               Open Signal AI Stock Screener
             </button>
+            <button onClick={() => setPage("coogle")} className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500">Open Coogle Search</button>
+            <button onClick={() => setPage("piPriceWatch")} className="px-6 py-4 rounded-2xl bg-blue-600 font-semibold hover:bg-blue-500">Open Pi Price Watch</button>
           </div>
         </section>
       )}
@@ -377,6 +390,8 @@ function App() {
       {page === "creatureQuest" && <CreatureQuest />}
       {page === "userManagement" && <UserManagment />}
       {page === "signalAI" && <SignalAI />}
+      {page === "coogle" && <Coogle />}
+      {page === "piPriceWatch" && <PiPriceWatch />}
       {page === "resume" && (
         <main className="h-screen bg-neutral-100">
           <object

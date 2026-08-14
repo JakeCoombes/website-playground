@@ -1,6 +1,2909 @@
 {
-  "modelVersion": "signal-20260812T231325Z",
-  "validationPassed": false,
-  "generatedAt": "2026-08-12T23:13:25.229639+00:00",
-  "predictions": []
+  "modelVersion": "rank-outlook-20260813T020034Z",
+  "validationPassed": true,
+  "targetValidationPassed": {
+    "boom": true,
+    "bust": false
+  },
+  "generatedAt": "2026-08-13T02:00:44.272449+00:00",
+  "validation": {
+    "boom": {
+      "auc": 0.7259476123876125,
+      "brier": 0.17551284711937562,
+      "prevalenceBrier": 0.18870770100857764,
+      "brierSkill": 0.06992218027499708
+    },
+    "bust": {
+      "auc": 0.5181698141858142,
+      "brier": 0.18871265731904013,
+      "prevalenceBrier": 0.18870770100857762,
+      "brierSkill": -2.6264484364046936e-05
+    }
+  },
+  "predictions": [
+    {
+      "symbol": "ACN",
+      "generatedAt": "2026-08-13T02:00:44.089529+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.5159043065161703,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "rsi14"
+        ],
+        "negative": [
+          "relative126",
+          "return252",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SYK",
+      "generatedAt": "2026-08-13T02:00:44.091840+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.26345168404472336,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_vol60",
+          "rsi14"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "spy_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "LLY",
+      "generatedAt": "2026-08-13T02:00:44.093423+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2737600376418334,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "price_sma200",
+          "relative63"
+        ],
+        "negative": [
+          "relative252",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AMT",
+      "generatedAt": "2026-08-13T02:00:44.095039+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.24536334146159108,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "rank_rsi14"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "C",
+      "generatedAt": "2026-08-13T02:00:44.096658+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.20039903598746747,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "price_sma200",
+          "volume_ratio60"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "KO",
+      "generatedAt": "2026-08-13T02:00:44.098255+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.12106702050089822,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "price_sma200",
+          "volume_ratio60"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "UNP",
+      "generatedAt": "2026-08-13T02:00:44.099834+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.15226741411223163,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "price_sma200",
+          "sma20_sma50"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "UNH",
+      "generatedAt": "2026-08-13T02:00:44.102367+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.21112426871389073,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "relative126",
+          "rank_rsi14"
+        ],
+        "negative": [
+          "rank_vol60",
+          "return126",
+          "relative252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "GOOGL",
+      "generatedAt": "2026-08-13T02:00:44.105452+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.3372668354674382,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_vol60",
+          "rank_rsi14"
+        ],
+        "negative": [
+          "relative252",
+          "rsi14",
+          "relative63"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "HD",
+      "generatedAt": "2026-08-13T02:00:44.108071+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.19530236001100848,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PGR",
+      "generatedAt": "2026-08-13T02:00:44.109715+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.283192334970493,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "distance_high252"
+        ],
+        "negative": [
+          "return252",
+          "rsi14",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "META",
+      "generatedAt": "2026-08-13T02:00:44.111308+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.398183951654656,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "relative252",
+          "rank_vol60"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "LIN",
+      "generatedAt": "2026-08-13T02:00:44.112937+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.12168098668764268,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_rsi14",
+          "relative252",
+          "bb_position"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CB",
+      "generatedAt": "2026-08-13T02:00:44.114538+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1261292794737637,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_rsi14",
+          "return252",
+          "bb_position"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "COST",
+      "generatedAt": "2026-08-13T02:00:44.116121+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1316637405773784,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "return252",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "LOW",
+      "generatedAt": "2026-08-13T02:00:44.118124+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2144991379924609,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "relative252",
+          "return126"
+        ],
+        "negative": [
+          "relative126",
+          "return252",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SCHW",
+      "generatedAt": "2026-08-13T02:00:44.120237+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1083440219080598,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "rank_breakout60",
+          "relative63"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MCD",
+      "generatedAt": "2026-08-13T02:00:44.121938+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1271383316938333,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "BLK",
+      "generatedAt": "2026-08-13T02:00:44.123495+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1454703707371156,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative252",
+          "rank_breakout60"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_vol60",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PG",
+      "generatedAt": "2026-08-13T02:00:44.125060+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.12913770916110123,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "VZ",
+      "generatedAt": "2026-08-13T02:00:44.126620+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.16231626952637407,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "volume_ratio60"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "NKE",
+      "generatedAt": "2026-08-13T02:00:44.128182+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.4120633640821015,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "relative252",
+          "return126"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AXP",
+      "generatedAt": "2026-08-13T02:00:44.129727+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.14094633830971168,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "return126",
+          "volume_ratio60"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "volume_ratio20"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "T",
+      "generatedAt": "2026-08-13T02:00:44.131297+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.20396955712873466,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "distance_high252"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "WMT",
+      "generatedAt": "2026-08-13T02:00:44.132854+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1530820586928501,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative252",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "relative63"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AMZN",
+      "generatedAt": "2026-08-13T02:00:44.134543+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.30486417128944276,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "relative126",
+          "rsi14"
+        ],
+        "negative": [
+          "distance_high252",
+          "return126",
+          "macd"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SBUX",
+      "generatedAt": "2026-08-13T02:00:44.136957+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.10290095902234121,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "rank_breakout60",
+          "price_sma200"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MA",
+      "generatedAt": "2026-08-13T02:00:44.138718+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.10866184169358353,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "sma20_sma50"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "JPM",
+      "generatedAt": "2026-08-13T02:00:44.140302+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.11473299871591516,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "price_sma200",
+          "rank_breakout60"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "TGT",
+      "generatedAt": "2026-08-13T02:00:44.141839+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.30046427501430517,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "price_sma200",
+          "return252"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_rsi14",
+          "return126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "V",
+      "generatedAt": "2026-08-13T02:00:44.143400+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.09420382555724813,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "volume_ratio60",
+          "rank_rsi14"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PLD",
+      "generatedAt": "2026-08-13T02:00:44.144980+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.12513027543495514,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_rsi14",
+          "bb_position"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AVGO",
+      "generatedAt": "2026-08-13T02:00:44.146580+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.45768998958104734,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "return252",
+          "rsi14"
+        ],
+        "negative": [
+          "return126",
+          "spy_rsi14",
+          "relative252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "FCX",
+      "generatedAt": "2026-08-13T02:00:44.148172+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.3579326145616032,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "return252",
+          "rsi14"
+        ],
+        "negative": [
+          "relative252",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ORCL",
+      "generatedAt": "2026-08-13T02:00:44.149724+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.6580392032220141,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "return252",
+          "sma20_sma50",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "JNJ",
+      "generatedAt": "2026-08-13T02:00:44.151321+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.14067921715010598,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "price_sma200",
+          "rsi14"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "relative252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CAT",
+      "generatedAt": "2026-08-13T02:00:44.153969+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.5728739535906738,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_vol60",
+          "distance_high252"
+        ],
+        "negative": [
+          "relative252",
+          "rsi14",
+          "sma20_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PANW",
+      "generatedAt": "2026-08-13T02:00:44.155830+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.7910482295808391,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative126",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "return126",
+          "relative252",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "TMO",
+      "generatedAt": "2026-08-13T02:00:44.158059+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.23792362628173888,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative63",
+          "sma20_sma50"
+        ],
+        "negative": [
+          "rank_rsi14",
+          "distance_high252",
+          "price_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PFE",
+      "generatedAt": "2026-08-13T02:00:44.159830+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.09559364351054522,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative252",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CSCO",
+      "generatedAt": "2026-08-13T02:00:44.161449+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.4241442983925657,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "price_sma200",
+          "relative126"
+        ],
+        "negative": [
+          "relative252",
+          "return126",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AAPL",
+      "generatedAt": "2026-08-13T02:00:44.163062+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.24579289147704922,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_rsi14",
+          "return252",
+          "bb_position"
+        ],
+        "negative": [
+          "rsi14",
+          "macd_hist",
+          "spy_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CVX",
+      "generatedAt": "2026-08-13T02:00:44.164656+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.14903643623863577,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "DE",
+      "generatedAt": "2026-08-13T02:00:44.166191+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2207557017558767,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "price_sma200",
+          "volume_ratio60",
+          "rsi14"
+        ],
+        "negative": [
+          "distance_high252",
+          "relative126",
+          "volume_ratio20"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "KLAC",
+      "generatedAt": "2026-08-13T02:00:44.167928+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.8558162856442865,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_vol60",
+          "distance_high252"
+        ],
+        "negative": [
+          "relative252",
+          "return126",
+          "sma20_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "QCOM",
+      "generatedAt": "2026-08-13T02:00:44.171007+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.6321481543138289,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "atr14_pct"
+        ],
+        "negative": [
+          "relative63",
+          "sma20_sma50",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ABT",
+      "generatedAt": "2026-08-13T02:00:44.172812+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2980530104901676,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative252",
+          "relative63"
+        ],
+        "negative": [
+          "return252",
+          "rank_rsi14",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "GILD",
+      "generatedAt": "2026-08-13T02:00:44.174396+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.17835240026003757,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative252",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "bb_position"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "GE",
+      "generatedAt": "2026-08-13T02:00:44.175960+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.20755998889809754,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "relative63",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_vol60",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "LRCX",
+      "generatedAt": "2026-08-13T02:00:44.177489+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.8723659503072827,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_vol60",
+          "atr14_pct"
+        ],
+        "negative": [
+          "relative252",
+          "return126",
+          "sma20_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "COP",
+      "generatedAt": "2026-08-13T02:00:44.179107+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2282785185446205,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_rsi14",
+          "bb_position"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "XOM",
+      "generatedAt": "2026-08-13T02:00:44.180723+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.17564477322475322,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative252",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "HON",
+      "generatedAt": "2026-08-13T02:00:44.182295+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.23867393794855132,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "rank_rsi14",
+          "relative252"
+        ],
+        "negative": [
+          "distance_high252",
+          "relative126",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AMAT",
+      "generatedAt": "2026-08-13T02:00:44.183862+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.8919559334766747,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_vol60",
+          "relative126"
+        ],
+        "negative": [
+          "relative252",
+          "return126",
+          "sma20_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "TXN",
+      "generatedAt": "2026-08-13T02:00:44.186055+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.5411159001402482,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "rsi14",
+          "relative252",
+          "return126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "BA",
+      "generatedAt": "2026-08-13T02:00:44.188013+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.23641763689989828,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "relative252",
+          "rsi14"
+        ],
+        "negative": [
+          "relative126",
+          "return252",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "RTX",
+      "generatedAt": "2026-08-13T02:00:44.189643+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.16763837750105465,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_vol60",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MU",
+      "generatedAt": "2026-08-13T02:00:44.191212+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.9868794283323463,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "relative126",
+          "distance_low252"
+        ],
+        "negative": [
+          "relative252",
+          "return126",
+          "sma20_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "INTU",
+      "generatedAt": "2026-08-13T02:00:44.192775+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.5446522799660205,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "relative252",
+          "rank_vol60"
+        ],
+        "negative": [
+          "return252",
+          "price_sma200",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "LMT",
+      "generatedAt": "2026-08-13T02:00:44.194312+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.28401494498864693,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "rank_vol60"
+        ],
+        "negative": [
+          "relative126",
+          "rank_rsi14",
+          "relative252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ISRG",
+      "generatedAt": "2026-08-13T02:00:44.195916+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.3558836698308991,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "relative126",
+          "price_sma200",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AMGN",
+      "generatedAt": "2026-08-13T02:00:44.197462+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.16097383686064384,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ETN",
+      "generatedAt": "2026-08-13T02:00:44.199031+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.32531381683139254,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "rsi14",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_rsi14",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "UPS",
+      "generatedAt": "2026-08-13T02:00:44.200592+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.23665628785610918,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_rsi14",
+          "return126",
+          "bb_position"
+        ],
+        "negative": [
+          "rsi14",
+          "relative126",
+          "spy_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "NOW",
+      "generatedAt": "2026-08-13T02:00:44.203012+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.6641612373043163,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "return252",
+          "macd",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "IBM",
+      "generatedAt": "2026-08-13T02:00:44.205208+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.4731159567430205,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "distance_high252",
+          "relative252"
+        ],
+        "negative": [
+          "relative126",
+          "price_sma200",
+          "sma20_sma50"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ICE",
+      "generatedAt": "2026-08-13T02:00:44.207115+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.15591745357361914,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "distance_high252"
+        ],
+        "negative": [
+          "rank_vol60",
+          "return252",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CRWD",
+      "generatedAt": "2026-08-13T02:00:44.208977+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.7225600308026122,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative126",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "return126",
+          "relative252",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SPGI",
+      "generatedAt": "2026-08-13T02:00:44.210600+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.30330793814522483,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "rank_rsi14"
+        ],
+        "negative": [
+          "return252",
+          "rsi14",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CMCSA",
+      "generatedAt": "2026-08-13T02:00:44.212207+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.25255092405064516,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "rsi14"
+        ],
+        "negative": [
+          "relative126",
+          "return252",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PEP",
+      "generatedAt": "2026-08-13T02:00:44.213864+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1343844925940355,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MS",
+      "generatedAt": "2026-08-13T02:00:44.215449+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2282664632050505,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "price_sma200",
+          "sma50_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "relative252",
+          "rank_vol60"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "DHR",
+      "generatedAt": "2026-08-13T02:00:44.217008+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.2839008955230436,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "relative252",
+          "rsi14"
+        ],
+        "negative": [
+          "relative126",
+          "return252",
+          "volume_ratio20"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "NVDA",
+      "generatedAt": "2026-08-13T02:00:44.219023+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.26958516541928407,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "rsi14",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_rsi14",
+          "rank_breakout20"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "DUK",
+      "generatedAt": "2026-08-13T02:00:44.221227+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.09293761336508334,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "bb_position"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PM",
+      "generatedAt": "2026-08-13T02:00:44.222867+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.16888335210976785,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "bb_position"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "GS",
+      "generatedAt": "2026-08-13T02:00:44.224433+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.3501030247527892,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "return252",
+          "rank_rsi14"
+        ],
+        "negative": [
+          "relative252",
+          "rsi14",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "AMD",
+      "generatedAt": "2026-08-13T02:00:44.225995+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.8849559898607604,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "relative126",
+          "rank_vol60"
+        ],
+        "negative": [
+          "relative252",
+          "return126",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SO",
+      "generatedAt": "2026-08-13T02:00:44.227532+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.0936917480997075,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "volume_ratio60"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MO",
+      "generatedAt": "2026-08-13T02:00:44.229114+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.19264761156385665,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rank_rsi14",
+          "bb_position"
+        ],
+        "negative": [
+          "rsi14",
+          "return252",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "WFC",
+      "generatedAt": "2026-08-13T02:00:44.230677+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.11967612179962213,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative63",
+          "relative252"
+        ],
+        "negative": [
+          "rank_vol60",
+          "relative126",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ABBV",
+      "generatedAt": "2026-08-13T02:00:44.232230+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.18405298712136914,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative63",
+          "rank_rsi14",
+          "return252"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MDT",
+      "generatedAt": "2026-08-13T02:00:44.233763+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.21861249980564568,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "relative252",
+          "rank_breakout60"
+        ],
+        "negative": [
+          "relative126",
+          "rank_rsi14",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "BKNG",
+      "generatedAt": "2026-08-13T02:00:44.235990+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.3363643481861252,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "rank_vol60",
+          "relative63"
+        ],
+        "negative": [
+          "rank_rsi14",
+          "return252",
+          "distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "BAC",
+      "generatedAt": "2026-08-13T02:00:44.238225+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.11079575961393975,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "return252",
+          "price_sma200"
+        ],
+        "negative": [
+          "rank_vol60",
+          "distance_high252",
+          "rank_rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ADP",
+      "generatedAt": "2026-08-13T02:00:44.239834+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.264076668241585,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "relative63"
+        ],
+        "negative": [
+          "return252",
+          "rank_rsi14",
+          "macd"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SHW",
+      "generatedAt": "2026-08-13T02:00:44.241393+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1919477083948963,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "rank_vol60"
+        ],
+        "negative": [
+          "distance_high252",
+          "relative126",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "ADBE",
+      "generatedAt": "2026-08-13T02:00:44.242948+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.45183990182879524,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "PLTR",
+      "generatedAt": "2026-08-13T02:00:44.244508+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.5238199157498443,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "rsi14",
+          "macd_hist"
+        ],
+        "negative": [
+          "price_sma50",
+          "price_sma20",
+          "return252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SLB",
+      "generatedAt": "2026-08-13T02:00:44.246121+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.33480061064795735,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_vol60",
+          "rsi14"
+        ],
+        "negative": [
+          "relative252",
+          "relative63",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "UBER",
+      "generatedAt": "2026-08-13T02:00:44.247691+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.37464888451373235,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "NFLX",
+      "generatedAt": "2026-08-13T02:00:44.249249+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.3438122773457302,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "relative252",
+          "rank_distance_high252"
+        ],
+        "negative": [
+          "return252",
+          "price_sma200",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "BMY",
+      "generatedAt": "2026-08-13T02:00:44.250808+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.15836595033112674,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rsi14",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "rank_vol60",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "TSLA",
+      "generatedAt": "2026-08-13T02:00:44.253338+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.40805386065852906,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "relative126",
+          "price_sma200",
+          "rsi14"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MRK",
+      "generatedAt": "2026-08-13T02:00:44.255573+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1898508027912287,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rsi14",
+          "price_sma200"
+        ],
+        "negative": [
+          "distance_high252",
+          "relative252",
+          "rank_vol60"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "DIS",
+      "generatedAt": "2026-08-13T02:00:44.257464+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.1287621055370614,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "rsi14",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "return252",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MSFT",
+      "generatedAt": "2026-08-13T02:00:44.259091+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.33944629236905605,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rsi14",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "rank_rsi14",
+          "return252",
+          "macd"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "EOG",
+      "generatedAt": "2026-08-13T02:00:44.261477+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.26465968582790683,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "price_sma200",
+          "relative126"
+        ],
+        "negative": [
+          "distance_high252",
+          "return126",
+          "rank_distance_high252"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CRM",
+      "generatedAt": "2026-08-13T02:00:44.263162+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.4384617257455278,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "distance_high252",
+          "rank_vol60",
+          "relative252"
+        ],
+        "negative": [
+          "return252",
+          "relative126",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "MAR",
+      "generatedAt": "2026-08-13T02:00:44.264757+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.20161802395315997,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "return252",
+          "rank_rsi14",
+          "return126"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "NEE",
+      "generatedAt": "2026-08-13T02:00:44.266322+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.10753056758759696,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_rsi14",
+          "return126",
+          "relative252"
+        ],
+        "negative": [
+          "rank_vol60",
+          "rsi14",
+          "relative126"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "SHOP",
+      "generatedAt": "2026-08-13T02:00:44.267869+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.539703152714982,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "rank_vol60",
+          "relative63",
+          "rsi14"
+        ],
+        "negative": [
+          "price_sma50",
+          "macd",
+          "price_sma20"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "symbol": "CME",
+      "generatedAt": "2026-08-13T02:00:44.270235+00:00",
+      "horizonDays": 126,
+      "boomDefinition": "Rank in the top 25% of tracked stocks by SPY-relative return",
+      "bustDefinition": "Rank in the bottom 25% of tracked stocks by SPY-relative return",
+      "boomProbability": 0.23300359761268852,
+      "boomConfidence": 0.6541497581702653,
+      "bustProbability": null,
+      "bustConfidence": null,
+      "modelVersion": "rank-outlook-20260813T020034Z",
+      "boomFactors": {
+        "positive": [
+          "relative252",
+          "distance_high252",
+          "return126"
+        ],
+        "negative": [
+          "relative126",
+          "return252",
+          "price_sma200"
+        ]
+      },
+      "bustFactors": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
 }

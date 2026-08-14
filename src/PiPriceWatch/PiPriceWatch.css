@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600&family=Fira+Sans:wght@400;500;600;700&display=swap');
+
+.pi-watch { --bg:#080f1c; --panel:#101827; --panel-2:#111b2e; --border:rgba(147,197,253,.18); --text:#eef6ff; --soft:#9fb5d1; --blue:#60a5fa; --strong:#3b82f6; min-height:100vh; background:radial-gradient(circle at 70% 0%,rgba(59,130,246,.12),transparent 34rem),var(--bg); color:var(--text); font-family:"Fira Sans",sans-serif; padding:72px clamp(20px,5vw,80px) 64px; }
+.pi-watch * { box-sizing:border-box; }
+.pi-watch__header { max-width:1320px; margin:0 auto 72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.pi-watch__brand { display:flex; align-items:center; gap:12px; font-weight:700; font-size:18px; }
+.pi-watch__brand-mark,.pi-watch__store-icon { display:grid; place-items:center; color:var(--blue); background:rgba(96,165,250,.12); border:1px solid rgba(96,165,250,.22); }
+.pi-watch__brand-mark { width:38px; height:38px; border-radius:9px; }
+.pi-watch svg { width:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.pi-watch__refresh { min-height:46px; display:flex; align-items:center; gap:9px; padding:0 16px; border:1px solid var(--border); border-radius:8px; background:var(--panel); color:var(--text); font:600 14px inherit; cursor:pointer; transition:background .2s,border-color .2s; }
+.pi-watch__refresh:hover:not(:disabled),.pi-watch__refresh:focus-visible { background:#132033; border-color:rgba(96,165,250,.48); }
+.pi-watch__refresh:disabled { opacity:.58; cursor:wait; }
+.pi-watch__hero { max-width:1320px; margin:0 auto 36px; display:grid; grid-template-columns:1fr auto; align-items:end; gap:40px; }
+.pi-watch__eyebrow { margin:0 0 12px; color:var(--blue); font:600 11px/1.4 "Fira Code",monospace; letter-spacing:.14em; text-transform:uppercase; }
+.pi-watch h1 { margin:0; max-width:780px; font-size:clamp(48px,7vw,92px); line-height:.94; letter-spacing:-.055em; }
+.pi-watch h1 span { color:#91b9ea; }
+.pi-watch__intro { max-width:610px; margin:24px 0 0; color:var(--soft); font-size:17px; line-height:1.65; }
+.pi-watch__target { min-width:230px; padding:24px; background:linear-gradient(145deg,rgba(59,130,246,.17),rgba(16,24,39,.95)); border:1px solid rgba(96,165,250,.3); border-radius:10px; box-shadow:0 18px 54px rgba(0,0,0,.22); }
+.pi-watch__target span,.pi-watch__target small,.pi-watch__metrics span,.pi-watch__metrics small,.pi-watch__memory span,.pi-watch__price span { display:block; }
+.pi-watch__target span,.pi-watch__memory span,.pi-watch__price span,.pi-watch__metrics span { color:var(--soft); font:600 10px "Fira Code",monospace; letter-spacing:.11em; }
+.pi-watch__target-values { display:grid; gap:7px; margin:10px 0 8px; }
+.pi-watch__target strong { display:flex; align-items:baseline; justify-content:space-between; gap:18px; color:var(--blue); font:600 23px "Fira Code",monospace; }
+.pi-watch__target strong b { color:var(--text); font:600 12px "Fira Code",monospace; letter-spacing:.08em; }
+.pi-watch__target small,.pi-watch__metrics small { color:var(--soft); font-size:12px; }
+.pi-watch__metrics { max-width:1320px; margin:0 auto 18px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; overflow:hidden; background:var(--border); border:1px solid var(--border); border-radius:10px; }
+.pi-watch__metrics article { min-height:126px; padding:24px; background:var(--panel); }
+.pi-watch__metrics strong { display:block; margin:9px 0 5px; font:600 27px "Fira Code",monospace; }
+.pi-watch__panel { max-width:1320px; margin:auto; background:rgba(16,24,39,.94); border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 24px 80px rgba(0,0,0,.2); }
+.pi-watch__panel-head { display:flex; align-items:end; justify-content:space-between; gap:20px; padding:26px 28px; border-bottom:1px solid var(--border); }
+.pi-watch h2 { margin:0; font-size:25px; letter-spacing:-.025em; }
+.pi-watch__filters { display:flex; gap:6px; padding:4px; background:#0b1423; border:1px solid var(--border); border-radius:8px; }
+.pi-watch__filters button { min-height:40px; padding:0 14px; border:0; border-radius:6px; background:transparent; color:var(--soft); font:600 13px inherit; cursor:pointer; transition:background .2s,color .2s; }
+.pi-watch__filters button:hover,.pi-watch__filters button:focus-visible { color:var(--text); }
+.pi-watch__filters button.is-active { background:var(--strong); color:white; }
+.pi-watch__list { display:grid; }
+.pi-watch__listing { display:grid; grid-template-columns:minmax(220px,1.6fr) 100px 150px 150px 120px; align-items:center; gap:18px; min-height:86px; padding:16px 28px; border-bottom:1px solid var(--border); transition:background .2s; }
+.pi-watch__listing:hover { background:#132033; }
+.pi-watch__listing.is-deal { box-shadow:inset 3px 0 var(--blue); background:rgba(59,130,246,.07); }
+.pi-watch__store { display:flex; align-items:center; gap:13px; min-width:0; }
+.pi-watch__store-icon { flex:0 0 38px; width:38px; height:38px; border-radius:8px; }
+.pi-watch__store strong,.pi-watch__store small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pi-watch__store strong { font-size:15px; }
+.pi-watch__store small { margin-top:4px; color:var(--soft); font-size:12px; }
+.pi-watch__memory strong,.pi-watch__price strong { display:block; margin-top:6px; font:600 15px "Fira Code",monospace; }
+.pi-watch__price strong { color:#cfe3fb; }
+.pi-watch__status { display:flex; align-items:center; gap:8px; color:var(--soft); font-size:13px; font-weight:600; }
+.pi-watch__status i { width:7px; height:7px; border-radius:50%; background:#64748b; }
+.pi-watch__status.is-deal { color:#7dd3fc; }.pi-watch__status.is-deal i { background:#38bdf8; box-shadow:0 0 12px #38bdf8; }
+.pi-watch__status.is-stock { color:#a7f3d0; }.pi-watch__status.is-stock i { background:#34d399; }
+.pi-watch__status.is-error { color:#fca5a5; }.pi-watch__status.is-error i { background:#f87171; }
+.pi-watch__listing a { min-height:44px; display:flex; align-items:center; justify-content:flex-end; gap:7px; color:var(--blue); font-size:13px; font-weight:600; text-decoration:none; }
+.pi-watch__listing a:hover { color:#bfdbfe; }
+.pi-watch__panel-foot { display:flex; justify-content:space-between; gap:16px; padding:18px 28px; color:var(--soft); font-size:12px; }
+.pi-watch__error,.pi-watch__loading { margin:24px 28px; padding:18px; border:1px solid rgba(248,113,113,.28); background:rgba(127,29,29,.12); border-radius:8px; }
+.pi-watch__error strong,.pi-watch__error span { display:block; }.pi-watch__error span { margin-top:5px; color:var(--soft); }
+.pi-watch__loading { border-color:var(--border); background:#0b1423; color:var(--soft); }
+.pi-watch button:focus-visible,.pi-watch a:focus-visible { outline:2px solid var(--blue); outline-offset:3px; }
+@media (max-width:900px) { .pi-watch__hero { grid-template-columns:1fr; }.pi-watch__target { width:100%; }.pi-watch__listing { grid-template-columns:1fr 80px 120px; }.pi-watch__status { grid-column:1/2; }.pi-watch__listing a { grid-column:3; grid-row:2; }.pi-watch__metrics { grid-template-columns:1fr; } }
+@media (max-width:600px) { .pi-watch { padding:48px 16px 40px; }.pi-watch__header { margin-bottom:48px; }.pi-watch__refresh { font-size:0; width:46px; justify-content:center; padding:0; }.pi-watch__refresh svg { width:20px; }.pi-watch__panel-head { align-items:stretch; flex-direction:column; padding:22px 18px; }.pi-watch__filters button { flex:1; }.pi-watch__listing { grid-template-columns:1fr 1fr; gap:18px; padding:20px 18px; }.pi-watch__store { grid-column:1/-1; }.pi-watch__price { text-align:right; }.pi-watch__status { grid-column:1; }.pi-watch__listing a { grid-column:2; grid-row:auto; }.pi-watch__panel-foot { flex-direction:column; padding:18px; }.pi-watch h1 { font-size:48px; } }
+@media (prefers-reduced-motion:reduce) { .pi-watch * { transition:none !important; } }
