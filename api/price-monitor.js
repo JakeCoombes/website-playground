@@ -1,3 +1,5 @@
+import * as cheerio from "cheerio";
+
 const THRESHOLDS = {
   2: Number(process.env.PRICE_MONITOR_2GB_THRESHOLD || 40),
   4: Number(process.env.PRICE_MONITOR_4GB_THRESHOLD || 60),
@@ -27,23 +29,22 @@ const PRODUCTS = [
   variant: new RegExp(`^${memoryGB}GB / Board Only$`, "i"),
 }));
 
-function cleanText(html) {
-  return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
+function cleanText($) {
+  const document = $.root().clone();
+  document.find("script, style, noscript, template, svg").remove();
+  return document
+    .text()
     .replace(/&nbsp;|&#160;/gi, " ")
     .replace(/&amp;/gi, "&")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-function parseJsonLd(html) {
+function parseJsonLd($) {
   const products = [];
-  const pattern = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
-  for (const match of html.matchAll(pattern)) {
+  $('script[type="application/ld+json"]').each((_, element) => {
     try {
-      const value = JSON.parse(match[1]);
+      const value = JSON.parse($(element).text());
       const queue = Array.isArray(value) ? [...value] : [value];
       while (queue.length) {
         const item = queue.shift();
@@ -56,7 +57,7 @@ function parseJsonLd(html) {
     } catch {
       // Some stores emit non-standard JSON-LD; validated text fallbacks run below.
     }
-  }
+  });
   return products;
 }
 
@@ -69,7 +70,13 @@ function priceFromProduct(product) {
   return null;
 }
 
-function parsePrice(html, text, products, memoryGB) {
+function parseNumericPrice(value) {
+  const normalized = String(value || "").replace(/[^0-9.,]/g, "").replace(/,/g, "");
+  const price = Number(normalized);
+  return Number.isFinite(price) && price > 0 ? price : null;
+}
+
+function parsePrice($, text, products, memoryGB) {
   for (const product of products) {
     const name = String(product?.name || "");
     if (/raspberry\s*pi\s*4(?:\s*model\s*b)?/i.test(name) && new RegExp(`${memoryGB}\\s*gb`, "i").test(name)) {
@@ -78,25 +85,61 @@ function parsePrice(html, text, products, memoryGB) {
     }
   }
 
+  const metadataSelectors = [
+    'meta[itemprop="price"]',
+    'meta[property="product:price:amount"]',
+    '[data-price-amount]',
+  ];
+  for (const selector of metadataSelectors) {
+    for (const element of $(selector).toArray()) {
+      const price = parseNumericPrice(
+        $(element).attr("content") || $(element).attr("data-price-amount") || $(element).text()
+      );
+      if (price) return price;
+    }
+  }
+
+  const visiblePriceSelectors = [
+    '.product-info-main [data-price-type="finalPrice"] .price',
+    '.productView-price .price--withoutTax',
+    '.productView-price .price',
+    '.product-price .price',
+    '[itemprop="offers"] [itemprop="price"]',
+  ];
+  for (const selector of visiblePriceSelectors) {
+    const price = parseNumericPrice($(selector).first().text());
+    if (price) return price;
+  }
+
   const patterns = [
     new RegExp(`(?:Raspberry\\s*Pi\\s*4(?:\\s*Model\\s*B)?[^$]{0,160}?${memoryGB}\\s*GB|${memoryGB}\\s*GB[^$]{0,160}?Board Only)[^$]{0,80}?\\$\\s*([0-9]+(?:\\.[0-9]{2})?)`, "i"),
-    /(?:price|final-price|product-price)[^>]{0,160}?(?:content|data-price-amount)=["']([0-9]+(?:\.[0-9]+)?)/i,
     /\$\s*([0-9]+(?:\.[0-9]{2})?)/,
   ];
   for (const pattern of patterns) {
-    const match = pattern.exec(pattern.source.includes("content") ? html : text);
+    const match = pattern.exec(text);
     const price = Number(match?.[1]);
     if (Number.isFinite(price) && price > 0) return price;
   }
   return null;
 }
 
-function parseAvailability(html, text, products) {
+function parseAvailability($, text, products) {
   const offerText = products
     .flatMap((product) => (Array.isArray(product.offers) ? product.offers : [product.offers]))
     .map((offer) => String(offer?.availability || ""))
     .join(" ");
-  const combined = `${offerText} ${text.slice(0, 12000)} ${html.slice(0, 12000)}`;
+  const semanticAvailability = [
+    ...$('link[itemprop="availability"], meta[itemprop="availability"]').map((_, element) =>
+      $(element).attr("href") || $(element).attr("content") || ""
+    ).get(),
+    ...$('[data-availability], [data-stock-status]').map((_, element) =>
+      $(element).attr("data-availability") || $(element).attr("data-stock-status") || ""
+    ).get(),
+  ].join(" ");
+  const purchaseControls = $('button, [role="button"], .availability, .stock, .productView-options')
+    .slice(0, 80)
+    .text();
+  const combined = `${offerText} ${semanticAvailability} ${purchaseControls} ${text.slice(0, 12000)}`;
   if (/out\s*of\s*stock|sold\s*out|unavailable|backordered/i.test(combined)) return false;
   return /in\s*stock|instock|add\s*to\s*cart/i.test(combined);
 }
@@ -132,14 +175,15 @@ async function checkStore(store) {
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const html = await response.text();
-    const text = cleanText(html);
-    const products = parseJsonLd(html);
+    const $ = cheerio.load(html);
+    const text = cleanText($);
+    const products = parseJsonLd($);
     const correctProduct =
       /raspberry\s*pi\s*4(?:\s*model\s*b)?/i.test(text) &&
       new RegExp(`${store.memoryGB}\\s*gb`, "i").test(text) &&
       !/compute\s*module\s*4/i.test(text);
-    const price = correctProduct ? parsePrice(html, text, products, store.memoryGB) : null;
-    const inStock = price !== null && parseAvailability(html, text, products);
+    const price = correctProduct ? parsePrice($, text, products, store.memoryGB) : null;
+    const inStock = price !== null && parseAvailability($, text, products);
     const qualifies = Boolean(store.shippable && inStock && price < THRESHOLDS[store.memoryGB]);
     return { ...store, price, inStock, qualifies, ok: true };
   } catch (error) {

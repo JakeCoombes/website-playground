@@ -195,93 +195,15 @@ function App() {
             setIsPreviewNavVisible(false);
           }
         }}
-        className={
-          page === "lily" || page === "karen"
-            ? "hidden items-center justify-between gap-4 px-6 py-4 text-white shadow-lg shadow-black/20 md:flex"
-            : "flex flex-wrap items-center justify-between gap-4  px-6 py-4 text-white shadow-lg shadow-black/20"
-        }
+        className="flex min-h-16 items-center justify-center px-6 py-3 text-white shadow-lg shadow-black/20"
       >
-        <button onClick={() => setPage("home")} className="text-xl font-bold">
+        <button
+          type="button"
+          onClick={() => setPage("home")}
+          className="min-h-11 rounded-lg px-5 text-xl font-bold transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+        >
           Jake Builds
         </button>
-
-        <div className="flex flex-wrap gap-3 hidden md:flex">
-          <button
-            onClick={() => setPage("karen")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Karen Bike Fitting
-          </button>
-
-          <button
-            onClick={() => setPage("lily")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Lily Dupuis
-          </button>
-
-          <button
-            onClick={() => setPage("curate")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            CURATE
-          </button>
-
-          <button
-            onClick={() => setPage("petBoarding")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Pet Boarding
-          </button>
-
-          <button
-            onClick={() => setPage("demoGenerator")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Demo Generator
-          </button>
-
-          <button
-            onClick={() => setPage("applyAI")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            ApplyAI
-          </button>
-
-          <button
-            onClick={() => setPage("bacariDinner")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Bacari Dinner
-          </button>
-
-          <button
-            onClick={() => setPage("bacariShiftTrader")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Bacari Shift Trader
-          </button>
-
-          <button
-            onClick={() => setPage("creatureQuest")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            Creature Quest
-          </button>
-
-          <button
-            onClick={() => setPage("userManagement")}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700"
-          >
-            User Management
-          </button>
-
-          <button onClick={() => setPage("signalAI")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">
-            Signal AI
-          </button>
-          <button onClick={() => setPage("coogle")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Coogle</button>
-          <button onClick={() => setPage("piPriceWatch")} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700">Pi Price Watch</button>
-        </div>
       </nav>
       )}
 
